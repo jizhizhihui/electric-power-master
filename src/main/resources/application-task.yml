@@ -1,0 +1,16 @@
+
+# Socket配置
+socket:
+  # 监听端口 2323
+  port: 2323
+
+# 线程池参数
+pool:
+  # 核心线程数 10
+  core-pool-size: 10
+  # 保持线程数 20
+  keep-alive-seconds: 60
+  # 最大线程数 int类型最大值
+  max-pool-size: 0x7fffffff
+  # 线程名前缀
+  thread-name-prefix: clientTaskPool

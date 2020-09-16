@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 @Log4j2
-public class StringUtil {
+public class StringUtils {
 
     /**
      * InputStream转化为String[]数组
@@ -65,9 +65,9 @@ public class StringUtil {
             max += Integer.parseInt(s);
         }
 
-        max += StringUtil.hexToInt("D1") + StringUtil.hexToInt("55");
+        max += StringUtils.hexToInt("D1") + StringUtils.hexToInt("55");
 
-        log.info(StringUtil.hexToInt("D1"));
+        log.info(StringUtils.hexToInt("D1"));
         log.info("和：" + max);
         log.info("取模：" + max % 256);
     }

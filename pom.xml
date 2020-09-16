@@ -53,14 +53,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!--Mysql驱动-->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <!--            <scope>runtime</scope>-->
-            <version>${mysql.version}</version>
-        </dependency>
-
         <!--  mybatis-plus 整合 springboot -->
         <dependency>
             <groupId>com.baomidou</groupId>

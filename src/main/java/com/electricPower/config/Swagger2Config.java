@@ -17,7 +17,7 @@ public class Swagger2Config {
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo()).select()
-                .apis(RequestHandlerSelectors.basePackage("com.electricity.project"))
+                .apis(RequestHandlerSelectors.basePackage("com.electricPower.project"))
                 .paths(PathSelectors.any())
                 .build();
     }

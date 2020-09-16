@@ -1,7 +1,7 @@
-package com.electricPower.socket.server;
+package com.electricPower.core.socket.server;
 
-import com.electricPower.Dataframe.CtrlFrame;
-import com.electricPower.Dataframe.DetermineFrame;
+import com.electricPower.core.Dataframe.CtrlFrame;
+import com.electricPower.core.Dataframe.DetermineFrame;
 
 import com.electricPower.common.exception.frame.FrameInvalidCtrlException;
 import lombok.Data;

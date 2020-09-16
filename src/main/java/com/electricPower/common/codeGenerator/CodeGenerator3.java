@@ -1,4 +1,4 @@
-package com.electricPower.codeGenerator;
+package com.electricPower.common.codeGenerator;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;

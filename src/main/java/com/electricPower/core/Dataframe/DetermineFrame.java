@@ -1,4 +1,4 @@
-package com.electricPower.Dataframe;
+package com.electricPower.core.Dataframe;
 
 import com.electricPower.common.exception.frame.FrameCheckFailureException;
 import com.electricPower.utils.StringUtils;

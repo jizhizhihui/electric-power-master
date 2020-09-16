@@ -1,6 +1,6 @@
-package com.electricPower.socket.server;
+package com.electricPower.core.socket.server;
 
-import com.electricPower.socket.constants.SocketConstant;
+import com.electricPower.core.socket.constants.SocketConstant;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 

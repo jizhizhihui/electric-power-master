@@ -1,4 +1,4 @@
-package com.electricPower.config;
+package com.electricPower.common.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package com.electricPower.socket.server;
+package com.electricPower.core.socket.server;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +9,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Date;
 
-import static com.electricPower.socket.constants.SocketConstant.RETRY_COUNT;
+import static com.electricPower.core.socket.constants.SocketConstant.RETRY_COUNT;
 
 
 /**

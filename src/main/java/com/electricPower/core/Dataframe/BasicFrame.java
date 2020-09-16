@@ -1,4 +1,4 @@
-package com.electricPower.Dataframe;
+package com.electricPower.core.Dataframe;
 
 import lombok.Data;
 

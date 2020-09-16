@@ -1,4 +1,4 @@
-package com.electricPower.Dataframe.uplink;
+package com.electricPower.core.Dataframe.uplink;
 
 import lombok.Data;
 

@@ -1,12 +1,10 @@
 package com.electricPower.common.config;
 
-import com.alibaba.fastjson.JSONObject;
-import com.electricPower.socket.server.SocketServer;
+import com.electricPower.core.socket.server.SocketServer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
 /**
  * @author 丁许

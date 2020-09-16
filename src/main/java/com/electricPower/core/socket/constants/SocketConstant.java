@@ -1,4 +1,4 @@
-package com.electricPower.socket.constants;
+package com.electricPower.core.socket.constants;
 
 /**
  * @author 丁许

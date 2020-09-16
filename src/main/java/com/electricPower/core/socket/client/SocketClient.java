@@ -1,13 +1,11 @@
-package com.electricPower.socket.client;
+package com.electricPower.core.socket.client;
 
-import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.Date;
 
 /**

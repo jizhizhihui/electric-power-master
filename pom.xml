@@ -19,7 +19,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <mysql.version>8.0.13</mysql.version>
         <shiro-spring.version>1.4.0</shiro-spring.version>
         <shiro-redis.version>3.2.1</shiro-redis.version>
         <jedis.version>2.9.1</jedis.version>
@@ -82,6 +81,13 @@
             <version>${druid.version}</version>
         </dependency>
 
+        <!--PostGre 数据库-->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
         <!-- springboot 整合 freemarker -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -119,6 +125,13 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>${fastjson.version}</version>
+        </dependency>
+
+        <!-- yaml加密-->
+        <dependency>
+            <groupId>com.github.ulisesbocchio</groupId>
+            <artifactId>jasypt-spring-boot-starter</artifactId>
+            <version>2.1.0</version>
         </dependency>
 
     </dependencies>

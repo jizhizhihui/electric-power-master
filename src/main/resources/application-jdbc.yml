@@ -4,11 +4,11 @@ spring:
     basic:
       enabled: false
   datasource:
-    url: jdbc:mysql://localhost:3306/mybatis_plus?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
-    username: root
-    password: root
-    type: com.alibaba.druid.pool.DruidDataSource
-    driverClassName: com.mysql.cj.jdbc.Driver
+    platform: postgres
+    url: jdbc:postgresql://127.0.0.1:5432/electricity
+    username: postgres
+    password: ENC(xZQ0MoAwTKNIzsXnbAjhqMcEMwz9ucaW）
+    driver-class-name: org.postgresql.Driver
 
 # ====================MybatisPlus====================
 mybatis-plus:

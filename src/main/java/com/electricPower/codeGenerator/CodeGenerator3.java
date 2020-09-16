@@ -14,13 +14,13 @@ import java.util.List;
 
 public class CodeGenerator3 {
 
-    private static String url = "jdbc:mysql://localhost:3306/springboot_aop?serverTimezone=CTT";
-    private static String user = "root";
-    private static String password = "root";
-    private static String driverName = "com.mysql.cj.jdbc.Driver";
-    private static String author = "com.JZhi";
+    private static String url = "jdbc:postgresql://127.0.0.1:5432/electricity";
+    private static String user = "postgres";
+    private static String password = "gezhi123";
+    private static String driverName = "org.postgresql.Driver";
+    private static String author = "com.chaFan";
     private static String outputDir = "/src/main/java/";
-    private static String packageName = "com.JZhi.project";//生成的东西放在这个包里
+    private static String packageName = "com.electricPower.project";//生成的东西放在这个包里
     private static String tablePrefix = "t_"; //表前缀
     private static String projectPath = System.getProperty("user.dir");
 
@@ -28,7 +28,7 @@ public class CodeGenerator3 {
 
         //数据库连接
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
-        dataSourceConfig.setDbType(DbType.MYSQL)
+        dataSourceConfig.setDbType(DbType.POSTGRE_SQL)
                 .setUrl(url)
                 .setUsername(user)
                 .setPassword(password)
@@ -42,20 +42,20 @@ public class CodeGenerator3 {
                 .setAuthor(author)  //作者
                 .setOutputDir(projectPath + outputDir)  //输出目录
                 .setFileOverride(false)  //覆盖文件
-                .setServiceName("I%sService");  // 自定义文件命名，注意 %s 会自动填充表实体属性！
+                .setServiceName("I%sService"); // 自定义文件命名，注意 %s 会自动填充表实体属性！
 //                .setServiceImplName("%sServiceImpl")
 //                .setMapperName("%sMapper")
 //                .setXmlName("%sMapper");
 
         List<FileOutConfig> focList = new ArrayList<>();
-//        focList.add(new FileOutConfig("/templates/cg/mapper.xml.ftl") {
-//            @Override
-//            public String outputFile(TableInfo tableInfo) {
-//                // 自定义输入文件名称
-//                return projectPath + "/src/main/resources/mybatis/mapper/"
-//                        + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
-//            }
-//        });
+        focList.add(new FileOutConfig("/templates/mapper.xml.ftl") {   //"/mybatis/mapper.xml.ftl"
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                // 自定义输入文件名称
+                return projectPath + "/src/main/resources/mybatis/mapper/"
+                        + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
+            }
+        });
 
         //策略配置
         StrategyConfig strategyConfig = new StrategyConfig();
@@ -67,9 +67,9 @@ public class CodeGenerator3 {
                 .setColumnNaming(NamingStrategy.underline_to_camel)     //字段名生成策略
                 .setRestControllerStyle(true) //RestController注解
                 .setControllerMappingHyphenStyle(true)          //驼峰转连字符
-                .setTablePrefix(tablePrefix);   //表前缀
-//                .setInclude("tb_user"); // 需要生成的表,默认全部
-//                .setExclude(new String[]{"test"}) // 排除生成的表
+                .setTablePrefix(tablePrefix);  //表前缀
+//                .setInclude("line_meters") // 需要生成的表,默认全部
+//                //.setExclude(new String[]{"test"}) // 排除生成的表
 //                .setSuperEntityClass("com.baomidou.demo.base.BsBaseEntity") //自定义实体父类
 //                .setSuperMapperClass("com.baomidou.demo.base.BsBaseMapper")   // 自定义 mapper 父类
 //                .setSuperServiceClass("com.baomidou.demo.base.BsBaseService") // 自定义 service 父类
@@ -82,7 +82,7 @@ public class CodeGenerator3 {
                 .setDataSource(dataSourceConfig)
                 .setCfg(new InjectionConfig() {
                             @Override
-                                public void initMap() {
+                            public void initMap() {
                             }
                         }.setFileOutConfigList(focList)
                 )
@@ -92,8 +92,11 @@ public class CodeGenerator3 {
                         .setController("controller")
                         .setEntity("entity")
                 )
-//                .setTemplate(new TemplateConfig().setXml(null)) //关闭默认的XML生成
+                //.setTemplate(new TemplateConfig().setXml(null)) //关闭默认的XML生成
                 .setTemplateEngine(new FreemarkerTemplateEngine())  //模板引擎
                 .execute(); //执行
     }
+
+
 }
+

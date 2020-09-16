@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 import java.io.*;
 
 @Log4j2
-public class BytesUtil {
+public class BytesUtils {
 
     private static final char[] HEX_CHARS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 

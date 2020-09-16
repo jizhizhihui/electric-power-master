@@ -5,10 +5,11 @@ spring:
       enabled: false
   datasource:
     platform: postgres
-    url: jdbc:postgresql://127.0.0.1:5432/electricity
+    url: jdbc:postgresql://10.12.6.169:5432/electricity
     username: postgres
-    password: ENC(xZQ0MoAwTKNIzsXnbAjhqMcEMwz9ucaW）
+    password: guowushi
     driver-class-name: org.postgresql.Driver
+
 
 # ====================MybatisPlus====================
 mybatis-plus:

@@ -14,9 +14,9 @@ import java.util.List;
 
 public class CodeGenerator3 {
 
-    private static String url = "jdbc:postgresql://127.0.0.1:5432/electricity";
+    private static String url = "jdbc:postgresql://10.12.6.169:5432/electricity";
     private static String user = "postgres";
-    private static String password = "gezhi123";
+    private static String password = "guowushi";
     private static String driverName = "org.postgresql.Driver";
     private static String author = "com.chaFan";
     private static String outputDir = "/src/main/java/";

@@ -45,5 +45,12 @@ public class MeterDataController {
         return meterDataMapper.insert(meterData);
     }
 
+    @ApiOperation("更新数据数据")
+    @PostMapping("/updateMeterData")
+    public int updateMeterData(MeterData meterData){
+
+        return meterDataMapper.updateById(meterData);
+    }
+
 
 }

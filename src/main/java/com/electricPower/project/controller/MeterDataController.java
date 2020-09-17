@@ -33,7 +33,12 @@ public class MeterDataController {
     @ApiOperation("查询所有数据")
     @GetMapping("/list")
     public CommonResult getList() {
-        return CommonResult.success(meterDataService.list());
+
+      // QueryWrapper queryWrapper = new QueryWrapper<>();
+      // queryWrapper.likeLeft("meter_sn","%k");
+       // queryWrapper.between("voltageA",220,222.2);
+       return CommonResult.success(meterDataService.list());
+       // return CommonResult.success(queryWrapper);
     }
 
     @ApiOperation("通过id查询电力数据")

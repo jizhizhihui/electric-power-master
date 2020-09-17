@@ -1,10 +1,5 @@
 package com.electricPower.project.entity;
 
-import java.beans.Transient;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.io.Serializable;
-
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
@@ -12,17 +7,18 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
 /**
  * <p>
  * 
  * </p>
- *
- * @author com.chaFan
  * @since 2020-09-17
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="MeterData对象", description="")
+@ApiModel(value="MeterData对象", description="电力数据")
 public class MeterData implements Serializable {
 
     private static final long serialVersionUID = 1L;

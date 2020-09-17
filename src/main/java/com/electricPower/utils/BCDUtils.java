@@ -36,11 +36,8 @@ public class BCDUtils {
             }
         } else
             num += Float.parseFloat(bcd.substring(0, bcd.length() - decimal));
-
-        log.info(num);
         return num;
     }
-
 
     /**
      * BCD字符串解析

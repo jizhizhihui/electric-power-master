@@ -8,50 +8,50 @@ import java.text.ParseException;
 public class FrameUtils {
 
     public static void analysisLien(String message) {
-        String[] strings = message.split(" ");
-        log.info("长度：" + strings.length);
-        int count = 9;
-        log.info("电压");
-        for (int i = 0; i < 6; i += 2) {
-            BCDUtils.stringBCDToFloat(strings[count + i] + strings[count + i + 1], 1, false);
-        }
-
-        count += 6;
-        log.info("电流");
-        for (int i = 0; i < 20; i += 4) {
-            BCDUtils.stringBCDToFloat(strings[count + i] + strings[count + i + 1] + strings[count + i + 2] + strings[count + i + 3], 3, false);
-        }
-
-        count += 20;
-        log.info("有功无功功率");
-        for (int i = 0; i < 32; i += 4) {
-            BCDUtils.stringBCDToFloat(strings[count + i] + strings[count + i + 1] + strings[count + i + 2] + strings[count + i + 3], 3, true);
-        }
-
-        count += 32;
-        log.info("功率因素");
-        for (int i = 0; i < 6; i += 2) {
-            BCDUtils.stringBCDToFloat(strings[count + i] + strings[count + i + 1], 3, true);
-        }
-
-        count += 6;
-        log.info("温度");
-        BCDUtils.stringBCDToFloat(strings[count] + strings[count + 1], 0, true);
-
-        count += 2;
-        log.info("湿度");
-        if (strings[count].equals("FF") && strings[count + 1].equals("FF"))
-            log.info("该字段无效");
-        else
-            BCDUtils.stringBCDToFloat(strings[count] + strings[count + 1], 0, true);
-
-        count += 2;
-        log.info("时间");
-        try {
-            BCDUtils.stringBCDToDate(strings[count], strings[count + 1], strings[count + 2] ,strings[count + 3],strings[count + 4] ,strings[count + 5]);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+//        String[] strings = message.split(" ");
+//        log.info("长度：" + strings.length);
+//        int count = 9;
+//        log.info("电压");
+//        for (int i = 0; i < 6; i += 2) {
+//            BCDUtils.stringBCDToFloat(strings[count + i] + strings[count + i + 1], 1, false);
+//        }
+//
+//        count += 6;
+//        log.info("电流");
+//        for (int i = 0; i < 20; i += 4) {
+//            BCDUtils.stringBCDToFloat(strings[count + i] + strings[count + i + 1] + strings[count + i + 2] + strings[count + i + 3], 3, false);
+//        }
+//
+//        count += 20;
+//        log.info("有功无功功率");
+//        for (int i = 0; i < 32; i += 4) {
+//            BCDUtils.stringBCDToFloat(strings[count + i] + strings[count + i + 1] + strings[count + i + 2] + strings[count + i + 3], 3, true);
+//        }
+//
+//        count += 32;
+//        log.info("功率因素");
+//        for (int i = 0; i < 6; i += 2) {
+//            BCDUtils.stringBCDToFloat(strings[count + i] + strings[count + i + 1], 3, true);
+//        }
+//
+//        count += 6;
+//        log.info("温度");
+//        BCDUtils.stringBCDToFloat(strings[count] + strings[count + 1], 0, true);
+//
+//        count += 2;
+//        log.info("湿度");
+//        if (strings[count].equals("FF") && strings[count + 1].equals("FF"))
+//            log.info("该字段无效");
+//        else
+//            BCDUtils.stringBCDToFloat(strings[count] + strings[count + 1], 0, true);
+//
+//        count += 2;
+//        log.info("时间");
+//        try {
+//            BCDUtils.stringBCDToDate(strings[count], strings[count + 1], strings[count + 2] ,strings[count + 3],strings[count + 4] ,strings[count + 5]);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
 
 
     }

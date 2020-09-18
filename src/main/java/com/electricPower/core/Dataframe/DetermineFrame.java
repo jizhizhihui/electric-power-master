@@ -1,8 +1,13 @@
 package com.electricPower.core.Dataframe;
 
 import com.electricPower.common.exception.frame.FrameCheckFailureException;
+import com.electricPower.project.entity.MeterData;
+import com.electricPower.project.service.IMeterDataService;
+import com.electricPower.project.service.impl.MeterDataServiceImpl;
 import com.electricPower.utils.StringUtils;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 
 import java.util.Arrays;
 
@@ -12,9 +17,11 @@ import java.util.Arrays;
 @Log4j2
 public class DetermineFrame extends BasicFrame{
 
-    private String dataFrame;
+
+    private IMeterDataService meterDataService;
 
     public DetermineFrame(String[] frame){
+        meterDataService = new MeterDataServiceImpl();
         if (frame.length == Integer.parseInt(frame[1],16)) {
             setStart(frame[0]);
             setLength(frame[1]);
@@ -29,12 +36,20 @@ public class DetermineFrame extends BasicFrame{
     }
 
     public void checkFrame(){
-        if (getStart() .equals("43")  && getEnd() .equals( "16") ){
-
+        if (getStart() .equals("43")  || getEnd() .equals( "16") ){
             //校验
 //            && getCheck().equals(Integer.parseInt(getCheck(), 16) % 256 + "")
             //校验终端
-            throw new FrameCheckFailureException("数据帧校验失败");
-        }
+       }
+//        throw new FrameCheckFailureException("数据帧校验失败");
+    }
+
+    @Async
+    public void saveFrame(MeterData meterData){
+        log.info("SaveFrame");
+        log.info("bean:" + meterDataService);
+
+        meterDataService.save(meterData);
+        log.info("SaveFrame");
     }
 }

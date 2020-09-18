@@ -4,6 +4,9 @@ import lombok.extern.log4j.Log4j2;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -50,7 +53,6 @@ public class BCDUtils {
         Date date = simpleDateFormat.parse(
                 times[0] + "/" + times[1] + "/" + times[2] + "-"
                         + times[3] + ":" + times[4] + ":" + times[5]);
-        log.info(date);
         return date;
     }
 

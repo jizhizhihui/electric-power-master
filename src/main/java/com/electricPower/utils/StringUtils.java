@@ -40,7 +40,6 @@ public class StringUtils {
         StringBuilder s = new StringBuilder();
         for (; start < strings.length && start <= count ;start ++ )
             s.append(strings[start]);
-        log.info(s.toString());
         return s.toString();
     }
 

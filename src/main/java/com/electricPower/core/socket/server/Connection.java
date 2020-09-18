@@ -65,6 +65,7 @@ public class Connection {
 				writer.println(message);
 				break;
 			} catch (IOException e) {
+				log.info("说明client端socket异常");
 				count++;
 				if (count >= RETRY_COUNT) {
 					//重试多次失败，说明client端socket异常

@@ -90,6 +90,9 @@ public class MeterData implements Serializable {
     @ApiModelProperty(value = "C相功率因素")
     private float powerFactorC;
 
+    @ApiModelProperty(value = "湿度")
+    private Integer humidity;
+
     @ApiModelProperty(value = "变压器温度（前端）/表箱内温度（后端），注意：前端不是总表）")
     private Integer temperature;
 
@@ -105,8 +108,9 @@ public class MeterData implements Serializable {
     @ApiModelProperty(value = "运行状态字7（总表才有）")
     private String combinedPhaseFault;
 
-    @ApiModelProperty(value = "湿度")
-    private Integer humidity;
 
+    public void setSaveTime(){
+        saveTime = LocalDateTime.now();
+    }
 
 }

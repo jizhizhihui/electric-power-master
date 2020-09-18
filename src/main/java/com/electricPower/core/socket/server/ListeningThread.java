@@ -1,6 +1,8 @@
 package com.electricPower.core.socket.server;
 
 import com.electricPower.core.socket.constants.SocketConstant;
+import com.electricPower.project.service.IMeterDataService;
+import com.electricPower.project.service.impl.MeterDataServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -11,6 +13,8 @@ import java.net.Socket;
 
 @Slf4j
 class ListeningThread extends Thread {
+
+	private IMeterDataService meterDataService;
 
 	private SocketServer socketServer;
 
@@ -43,7 +47,7 @@ class ListeningThread extends Thread {
 				}
 				//设置超时时间为5s（有心跳机制了不需要设置）
 				//socket.setSoTimeout(5 * 1000);
-				ConnectionThread connectionThread = new ConnectionThread(socket, socketServer);
+				ConnectionThread connectionThread = new ConnectionThread(socket, socketServer,meterDataService);
 				socketServer.getExistConnectionThreadList().add(connectionThread);
 				//todo:这边最好用线程池
 				connectionThread.start();

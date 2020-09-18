@@ -1,8 +1,13 @@
 package com.electricPower.core.socket.server;
 
+import com.electricPower.common.config.ApplicationContextProvider;
 import com.electricPower.core.socket.constants.SocketConstant;
+import com.electricPower.project.service.IMeterDataService;
+import com.electricPower.project.service.impl.MeterDataServiceImpl;
+import com.electricPower.utils.FrameUtils;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,6 +54,7 @@ public class SocketServer {
 
     public SocketServer(int port) {
         try {
+            log.info("weiohngqdf");
             serverSocket = new ServerSocket(port);
         } catch (IOException e) {
             log.error("本地socket服务启动失败.exception:{}", e);
@@ -59,6 +65,7 @@ public class SocketServer {
      * 开一个线程来开启本地socket服务，开启一个monitor线程
      */
     public void start() {
+//        FrameUtils.svarTest(meterDataService);
         listeningThread = new ListeningThread(this);
         listeningThread.start();
         //每隔1s扫一次ThreadList
@@ -74,7 +81,6 @@ public class SocketServer {
                         connectionThread.stopRunning();
                         existConnectionThreadList.remove(connectionThread);
 //                        existConnectionThreadList
-
                 }
             });
         }, 0, 1, TimeUnit.SECONDS);

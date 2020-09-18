@@ -1,8 +1,11 @@
 package com.electricPower;
 
+import com.electricPower.common.config.ThreadPoolConfigurer;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -11,10 +14,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @author 丁许
  * @date 2019-01-23 13:35
  */
-@EnableSwagger2
-@EnableScheduling
 @SpringBootApplication
 @MapperScan("com.electricPower.project.mapper")
+@EnableScheduling
+@EnableAsync
 public class ElectricPowerApplication {
 
 	public static void main(String[] args) {

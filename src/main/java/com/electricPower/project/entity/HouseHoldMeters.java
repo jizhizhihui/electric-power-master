@@ -29,7 +29,7 @@ public class HouseHoldMeters implements Serializable {
     private String commAddress;
 
     @ApiModelProperty(value = "户表额定电压")
-    private BigDecimal ratedVoltage;
+    private float ratedVoltage;
 
     @ApiModelProperty(value = "户表计量点地址")
     private String meterAddress;

@@ -29,7 +29,7 @@ public class TruckMeters implements Serializable {
     private String commAddress;
 
     @ApiModelProperty(value = "总表额定电压")
-    private Long ratedVoltage;
+    private float ratedVoltage;
 
     @ApiModelProperty(value = "总表计量点地址")
     private String meterAddress;

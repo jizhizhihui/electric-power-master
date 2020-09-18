@@ -20,6 +20,4 @@ import javax.annotation.Resource;
  */
 @Service
 public class MeterDataServiceImpl extends ServiceImpl<MeterDataMapper, MeterData> implements IMeterDataService {
-
-
 }

@@ -95,23 +95,24 @@ public class ConnectionThread extends Thread {
 //                        //终端校验
 //                    }
 
+
+
                     String ctrl = determineFrame.getCtrl();
                     if (CtrlFrame.LINE.getVal().equals(ctrl)) {
                         log.info(CtrlFrame.LINE.getMsg());
                         MeterData meterData = FrameUtils.analysisLien(message);
-                        meterData.setMeterSn("test");
+                        meterData.setMeterSn("demo");
                         System.out.println(meterData);
 
 //                        try {
-                            assert meterDataService != null;
-                            meterDataService.save(meterData);
+//                            assert meterDataService != null;
+//                            meterDataService.save(meterData);
 //                        }catch(Exception e){
 //                            log.info("存储异常：" + e);
 //                        }
 
                     } else if (CtrlFrame.MASTER.getVal().equals(ctrl)) {
                         log.info(CtrlFrame.MASTER.getMsg());
-
                     } else if (CtrlFrame.HEART.getVal().equals(ctrl)) {
                         log.info(CtrlFrame.HEART.getMsg());
                     } else if (CtrlFrame.ALARM.getVal().equals(ctrl)) {
@@ -120,7 +121,7 @@ public class ConnectionThread extends Thread {
                         log.warn("控制字节 " + ctrl + " 无效");
                         throw new FrameInvalidCtrlException();
                     }
-                    log.info("end");
+//                    log.info("end");
 //                    //添加到已校验map中
 //                    socketServer.getExistSocketMap().put(determineFrame.getAddress(), connection);
 

@@ -2,6 +2,9 @@ package com.electricPower.core.Dataframe.downlink;
 
 import com.electricPower.core.Dataframe.BasicFrame;
 
+/**
+ * 召测帧
+ */
 public class FrameCmd extends BasicFrame {
 
     public FrameCmd(String ctrl, String terminalAddress){

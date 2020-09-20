@@ -1,10 +1,12 @@
 package com.electricPower.core.socket.server;
 
 import com.electricPower.common.config.ApplicationContextProvider;
+import com.electricPower.common.exception.frame.FrameCheckFailureException;
 import com.electricPower.core.Dataframe.CtrlFrame;
 import com.electricPower.core.Dataframe.DetermineFrame;
 
 import com.electricPower.common.exception.frame.FrameInvalidCtrlException;
+import com.electricPower.core.Dataframe.downlink.FrameAnswer;
 import com.electricPower.project.entity.MeterData;
 import com.electricPower.project.service.IMeterDataService;
 import com.electricPower.project.service.impl.MeterDataServiceImpl;
@@ -86,53 +88,66 @@ public class ConnectionThread extends Thread {
                     connection.setLastOnTime(now);
 
                     DetermineFrame determineFrame = new DetermineFrame(message.split(" "));
-                    determineFrame.checkFrame();
 
-//                    if (socketServer.getExistSocketMap().containsKey(determineFrame.getAddress())) {
-//                        Connection existConnection = socketServer.getExistSocketMap().get(determineFrame.getAddress());
-//                        existConnection.getConnectionThread().stopRunning();
-//                    } else {
-//                        //终端校验
-//                    }
+                    if (determineFrame.checkFrame()) {
 
-
-
-                    String ctrl = determineFrame.getCtrl();
-                    if (CtrlFrame.LINE.getVal().equals(ctrl)) {
-                        log.info(CtrlFrame.LINE.getMsg());
-                        MeterData meterData = FrameUtils.analysisLien(message);
-                        meterData.setMeterSn("demo");
-                        System.out.println(meterData);
-
-//                        try {
-//                            assert meterDataService != null;
-//                            meterDataService.save(meterData);
-//                        }catch(Exception e){
-//                            log.info("存储异常：" + e);
+//                        if (socketServer.getExistSocketMap().containsKey(determineFrame.getAddress())) {
+//                            Connection existConnection = socketServer.getExistSocketMap().get(determineFrame.getAddress());
+//                            existConnection.getConnectionThread().stopRunning();
+//                        } else {
+//                            //终端校验
 //                        }
 
-                    } else if (CtrlFrame.MASTER.getVal().equals(ctrl)) {
-                        log.info(CtrlFrame.MASTER.getMsg());
-                    } else if (CtrlFrame.HEART.getVal().equals(ctrl)) {
-                        log.info(CtrlFrame.HEART.getMsg());
-                    } else if (CtrlFrame.ALARM.getVal().equals(ctrl)) {
-                        log.info(CtrlFrame.ALARM.getMsg());
+                        String ctrl = determineFrame.getCtrl();
+                        if (CtrlFrame.HEART.getVal().equals(ctrl)) {
+
+                            log.info(CtrlFrame.HEART.getMsg());
+                            FrameAnswer frameAnswer = new FrameAnswer();
+                            frameAnswer.creatCheck("12", determineFrame.getAddress(),"80");
+
+                        } else if (CtrlFrame.LINE.getVal().equals(ctrl)) {
+
+                            log.info(CtrlFrame.LINE.getMsg());
+                            MeterData meterData = FrameUtils.analysisLien(message);
+                            meterData.setMeterSn("demo");
+                            System.out.println(meterData);
+                            try {
+                                assert meterDataService != null;
+                                meterDataService.save(meterData);
+                            } catch (Exception e) {
+                                log.info("存储异常：" + e);
+                            }
+
+                        } else if (CtrlFrame.MASTER.getVal().equals(ctrl)) {
+
+                            log.info(CtrlFrame.MASTER.getMsg());
+
+                        } else if (CtrlFrame.ALARM.getVal().equals(ctrl)) {
+
+                            log.info(CtrlFrame.ALARM.getMsg());
+
+                        } else {
+                            log.warn("控制字节 " + ctrl + " 无效");
+                            throw new FrameInvalidCtrlException();
+                        }
+
                     } else {
-                        log.warn("控制字节 " + ctrl + " 无效");
-                        throw new FrameInvalidCtrlException();
+                        FrameAnswer frameAnswer = new FrameAnswer();
+                        frameAnswer.creatCheck("12",determineFrame.getAddress(), "C0");
+                        throw new FrameCheckFailureException("数据帧校验失败");
                     }
-//                    log.info("end");
+
 //                    //添加到已校验map中
 //                    socketServer.getExistSocketMap().put(determineFrame.getAddress(), connection);
 
+                }
+            } catch (IOException e) {
+                log.error("ConnectionThread.run failed. IOException:{}", e.getMessage());
+                this.stopRunning();
             }
-        } catch(IOException e){
-            log.error("ConnectionThread.run failed. IOException:{}", e.getMessage());
-            this.stopRunning();
         }
-    }
 
-}
+    }
 
     public void stopRunning() {
         log.info("停止socket连接,ip:{}", this.socket.getInetAddress().toString());

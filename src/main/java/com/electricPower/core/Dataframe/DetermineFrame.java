@@ -17,14 +17,12 @@ import java.util.Arrays;
 @Log4j2
 public class DetermineFrame extends BasicFrame{
 
-
-    private IMeterDataService meterDataService;
+    private String[] frame;
 
     public DetermineFrame(String[] frame){
-        meterDataService = new MeterDataServiceImpl();
         if (frame.length == Integer.parseInt(frame[1],16)) {
+            this.frame = frame;
             setStart(frame[0]);
-            setLength(frame[1]);
             setCtrl(frame[2]);
             setAddress(StringUtils.subString(frame, 3, 3));
             setCheck(frame[frame.length - 2]);
@@ -35,21 +33,31 @@ public class DetermineFrame extends BasicFrame{
         }
     }
 
-    public void checkFrame(){
-        if (getStart() .equals("43")  || getEnd() .equals( "16") ){
-            //校验
-//            && getCheck().equals(Integer.parseInt(getCheck(), 16) % 256 + "")
-            //校验终端
-       }
-//        throw new FrameCheckFailureException("数据帧校验失败");
+    /**
+     * 校验数据帧
+     */
+    public boolean checkFrame(){
+        if (!getStart() .equals("43")  || !getEnd() .equals( "16"))
+            return false;
+        int sum = 0;
+        for (int i = 0;i < frame.length-2; i++)
+            sum += Integer.parseInt(frame[i],16);
+        String c = Integer.toHexString(sum).toUpperCase();
+        log.info("校验码：" + c);
+        return  c.substring(c.length()-2).equals(getCheck());
     }
 
-    @Async
-    public void saveFrame(MeterData meterData){
-        log.info("SaveFrame");
-        log.info("bean:" + meterDataService);
+    public static void main(String[] args) {
 
-        meterDataService.save(meterData);
-        log.info("SaveFrame");
+        String s = "43 0B 01 11 11 11 11 11 11 B5 16";
+//                "43 55 01 " + //前校验
+//                        "11 11 11 11 11 11 " +    //终端地址
+//                        "22 12 22 34 22 56 " +  //电压 ，小数1，非负，2
+//                        "00 00 12 34 00 00 56 78 00 01 90 12 00 00 01 23 00 00 00 45 " + //电流，小数3，非负，4
+//                        "80 00 78 90 00 01 23 45 80 00 56 78 00 23 45 67 00 00 78 90 80 01 23 45 00 00 56 78 80 23 45 67 " + //有功无功功率,小数3，可负
+//                        "10 00 09 98 85 00 " +  //功率因素，小数3，可负，
+//                        "80 25 00 65 20 08 06 11 15 00 " +  //温湿度 + 时间戳
+//                        "D1 16";//后校验
+
     }
 }

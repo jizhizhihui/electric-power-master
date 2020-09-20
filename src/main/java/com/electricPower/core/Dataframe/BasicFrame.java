@@ -24,4 +24,9 @@ public class BasicFrame implements Serializable {
 
     //结束字符
     private String end;
+
+    @Override
+    public String toString(){
+        return start + " " + length + " " + ctrl + " " + address + " " + check + " " + end;
+    }
 }

@@ -8,9 +8,6 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Date;
 
-/**
- * @author 丁许
- */
 @Slf4j
 @Data
 public class SocketClient {

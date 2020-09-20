@@ -23,7 +23,11 @@ public class MeterData implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(type = IdType.INPUT)
+
+    @TableId(value = "meter_data_id",type = IdType.AUTO)
+    @ApiModelProperty(value = "电力数据表ID")
+    private long meterDataId;
+
     @ApiModelProperty(value = "电表编号；台变编号")
     private String meterSn;
 

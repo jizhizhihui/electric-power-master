@@ -61,7 +61,7 @@ public class FrameUtils {
     }
 
     public static String creatCheck(String message){
-        String[] s = message.split(" ");
+        String[] s = message.split(" ");//split() 方法根据匹配给定的正则表达式来拆分字符串。
         //产生校验帧
         int sum = 0;
         for (int i = 0; i < s.length-2; i++) {

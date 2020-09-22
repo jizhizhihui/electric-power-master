@@ -1,8 +1,6 @@
 package com.electricPower.core.socket.server;
 
 import com.electricPower.core.socket.constants.SocketConstant;
-import com.electricPower.project.service.IMeterDataService;
-import com.electricPower.project.service.impl.MeterDataServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;

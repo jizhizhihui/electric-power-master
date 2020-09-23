@@ -54,7 +54,6 @@ public class SocketServer {
 
     public SocketServer(int port) {
         try {
-            log.info("weiohngqdf");
             serverSocket = new ServerSocket(port);
         } catch (IOException e) {
             log.error("本地socket服务启动失败.exception:{}", e);

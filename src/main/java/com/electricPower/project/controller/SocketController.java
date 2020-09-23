@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Log4j2
 public class SocketController {
 
-    @Value("${socket.port}")
+    @Value("${task.socket.port}")
     private int port;
 
     @Autowired

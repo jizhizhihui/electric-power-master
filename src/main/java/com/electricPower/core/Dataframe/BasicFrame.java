@@ -1,13 +1,21 @@
 package com.electricPower.core.Dataframe;
 
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 
 @Data
+@Component
+@PropertySource(value = "classpath:application-task.yml")
 public class BasicFrame implements Serializable {
 
     //开始字符
+    @Value("${task.protocol.start}")
     private String start;
 
     //长度字符
@@ -23,10 +31,15 @@ public class BasicFrame implements Serializable {
     private String check;
 
     //结束字符
+    @Value("${task.protocol.end}")
     private String end;
 
     @Override
     public String toString(){
         return start + " " + length + " " + ctrl + " " + address + " " + check + " " + end;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("tostring: " + new BasicFrame().toString());
     }
 }

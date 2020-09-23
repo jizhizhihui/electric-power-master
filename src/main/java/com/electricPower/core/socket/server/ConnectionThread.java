@@ -7,6 +7,7 @@ import com.electricPower.core.Dataframe.DetermineFrame;
 
 import com.electricPower.common.exception.frame.FrameInvalidCtrlException;
 import com.electricPower.core.Dataframe.downlink.FrameAnswer;
+import com.electricPower.core.socket.client.SocketClient;
 import com.electricPower.project.entity.MeterData;
 import com.electricPower.project.service.IMeterDataService;
 import com.electricPower.project.service.impl.MeterDataServiceImpl;
@@ -22,6 +23,7 @@ import org.springframework.scheduling.annotation.Async;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Date;
 
@@ -78,16 +80,19 @@ public class ConnectionThread extends Thread {
             }
             BufferedReader reader;
             try {
-                reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 String message;
-                while ((message = reader.readLine()) != null) {
+                DetermineFrame determineFrame = new DetermineFrame();
+                byte[] bytes = new byte[1024];
+
+                while (socket.getInputStream().read(bytes) > 0) {
+                    message = new String(bytes);
                     log.info("服务端收到消息：" + message);
 
                     //更新心跳判断时间
                     Date now = new Date();
                     connection.setLastOnTime(now);
 
-                    DetermineFrame determineFrame = new DetermineFrame(message.split(" "));
+                    determineFrame.setDetermineFrame(message.split(" "));
 
                     if (determineFrame.checkFrame()) {
 
@@ -102,8 +107,9 @@ public class ConnectionThread extends Thread {
                         if (CtrlFrame.HEART.getVal().equals(ctrl)) {
 
                             log.info(CtrlFrame.HEART.getMsg());
-                            FrameAnswer frameAnswer = new FrameAnswer();
-                            frameAnswer.creatCheck("12", determineFrame.getAddress(),"80");
+                            FrameAnswer frameAnswer = new FrameAnswer("12", determineFrame.getAddress(), "80");
+                            connection.println(frameAnswer.toString());
+                            log.info(frameAnswer.toString());
 
                         } else if (CtrlFrame.LINE.getVal().equals(ctrl)) {
 
@@ -116,6 +122,7 @@ public class ConnectionThread extends Thread {
                                 meterDataService.save(meterData);
                             } catch (Exception e) {
                                 log.info("存储异常：" + e);
+                                break;
                             }
 
                         } else if (CtrlFrame.MASTER.getVal().equals(ctrl)) {
@@ -132,15 +139,15 @@ public class ConnectionThread extends Thread {
                         }
 
                     } else {
-                        FrameAnswer frameAnswer = new FrameAnswer();
-                        frameAnswer.creatCheck("12",determineFrame.getAddress(), "C0");
+                        FrameAnswer frameAnswer = new FrameAnswer("12", determineFrame.getAddress(), "C0");
+                        log.error("检验失败，应答帧：" + frameAnswer.toString());
+                        log.info("失败数据帧：" + determineFrame.toString());
+                        connection.println(frameAnswer.toString());
                         throw new FrameCheckFailureException("数据帧校验失败");
                     }
-
+                }
 //                    //添加到已校验map中
 //                    socketServer.getExistSocketMap().put(determineFrame.getAddress(), connection);
-
-                }
             } catch (IOException e) {
                 log.error("ConnectionThread.run failed. IOException:{}", e.getMessage());
                 this.stopRunning();

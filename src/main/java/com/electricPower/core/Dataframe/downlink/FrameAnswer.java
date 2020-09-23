@@ -4,10 +4,12 @@ import com.electricPower.core.Dataframe.BasicFrame;
 import com.electricPower.utils.DateTimeUtils;
 import com.electricPower.utils.FrameUtils;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 应答帧
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class FrameAnswer extends BasicFrame{
 
@@ -15,16 +17,15 @@ public class FrameAnswer extends BasicFrame{
 
     private String time;
 
-    public FrameAnswer(){
+    public FrameAnswer(String ctrl,String terminalAddress, String ansFlag){
         setStart("43");
-        setLength("12");
         setEnd("16");
-    }
 
-    public void creatCheck(String ctrl,String terminalAddress, String ansFlag){
+        setLength("12");
         setCtrl(ctrl);
+        setAddress(terminalAddress);
         this.ansFlag = ansFlag;
-//        this.time = "20 08 06 11 15 00"; //测试日期
+        //        this.time = "20 08 06 11 15 00"; //测试日期
         this.time = DateTimeUtils.getStringTime();
         setCheck(FrameUtils.creatCheck(toString()));
     }
@@ -36,9 +37,8 @@ public class FrameAnswer extends BasicFrame{
 
     public static void main(String[] args) {
 
-        FrameAnswer frameAnswer = new FrameAnswer();
+        FrameAnswer frameAnswer = new FrameAnswer("80","11 11 11 11 11 11","00");
 
-        frameAnswer.creatCheck("80","11 11 11 11 11 11","00");
         System.out.println(frameAnswer.toString());
     }
 }

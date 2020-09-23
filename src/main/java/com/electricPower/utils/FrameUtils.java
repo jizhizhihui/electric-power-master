@@ -73,19 +73,9 @@ public class FrameUtils {
     }
 
     public static void main(String[] args) {
-        String message =
-                "43 55 01 " + //前校验
-                        "11 11 11 11 11 11 " +    //终端地址
-                        "22 12 22 34 22 56 " +  //电压 ，小数1，非负，2
-                        "00 00 12 34 00 00 56 78 00 01 90 12 00 00 01 23 00 00 00 45 " + //电流，小数3，非负，4
-                        "80 00 78 90 00 01 23 45 80 00 56 78 00 23 45 67 00 00 78 90 80 01 23 45 00 00 56 78 80 23 45 67 " + //有功无功功率,小数3，可负
-                        "10 00 09 98 85 00 " +  //功率因素，小数3，可负，
-                        "80 25 00 65 20 08 06 11 15 00 " +  //温湿度 + 时间戳
-                        "D1 16";//后校验
+        String message = "43 11 3F 11 11 11 11 11 11 20 09 08 10 11 12 5D 16";
 
-        MeterData meterData = analysisLien(message);
-        meterData.setMeterSn("test");
-        log.info(meterData.toString());
+        log.info(creatCheck(message));
     }
 
 }

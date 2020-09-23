@@ -16,8 +16,8 @@ import java.util.concurrent.ThreadPoolExecutor;
  */
 @Data
 @Configuration
-@PropertySource("classpath:application.yml")
-@ConfigurationProperties(prefix = "pool")
+@PropertySource("classpath:application-task.yml")
+@ConfigurationProperties(prefix = "task.pool")
 public class ThreadPoolConfigurer {
 
 	private int corePoolSize;

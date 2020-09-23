@@ -5,6 +5,7 @@ import com.electricPower.project.entity.MeterData;
 import com.electricPower.project.service.IMeterDataService;
 import com.electricPower.project.service.impl.MeterDataServiceImpl;
 import com.electricPower.utils.StringUtils;
+import lombok.Data;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -15,14 +16,21 @@ import java.util.Arrays;
  * 校验数据帧
  */
 @Log4j2
-public class DetermineFrame extends BasicFrame{
+@Data
+public class DetermineFrame extends BasicFrame {
 
     private String[] frame;
 
-    public DetermineFrame(String[] frame){
-        if (frame.length == Integer.parseInt(frame[1],16)) {
+    /**
+     * 初始化数据帧，检验数据长度
+     *
+     * @param frame 数据帧
+     */
+    public void setDetermineFrame(String[] frame) {
+        if (frame.length == Integer.parseInt(frame[1], 16)) {
             this.frame = frame;
             setStart(frame[0]);
+            setLength(frame[1]);
             setCtrl(frame[2]);
             setAddress(StringUtils.subString(frame, 3, 3));
             setCheck(frame[frame.length - 2]);
@@ -36,15 +44,14 @@ public class DetermineFrame extends BasicFrame{
     /**
      * 校验数据帧
      */
-    public boolean checkFrame(){
-        if (!getStart() .equals("43")  || !getEnd() .equals( "16"))
+    public boolean checkFrame() {
+        if (!getStart().equals("43") || !getEnd().trim().equals("16"))
             return false;
         int sum = 0;
-        for (int i = 0;i < frame.length-2; i++)
-            sum += Integer.parseInt(frame[i],16);
+        for (int i = 0; i < frame.length - 2; i++)
+            sum += Integer.parseInt(frame[i], 16);
         String c = Integer.toHexString(sum).toUpperCase();
-        log.info("校验码：" + c);
-        return  c.substring(c.length()-2).equals(getCheck());
+        return c.substring(c.length() - 2).equals(getCheck());
     }
 
     public static void main(String[] args) {

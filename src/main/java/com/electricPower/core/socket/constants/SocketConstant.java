@@ -9,6 +9,7 @@ public class SocketConstant {
 	/**
 	 * 心跳频率为10s
 	 */
+	//final关键字不允许修改或替换其原始值或定义。
 	public static final int HEART_RATE = 10*1000;
 
 	/**

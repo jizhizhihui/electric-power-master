@@ -1,14 +1,9 @@
 package com.electricPower.core.Dataframe;
 
 import com.electricPower.common.exception.frame.FrameCheckFailureException;
-import com.electricPower.project.entity.MeterData;
-import com.electricPower.project.service.IMeterDataService;
-import com.electricPower.project.service.impl.MeterDataServiceImpl;
 import com.electricPower.utils.StringUtils;
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 
 import java.util.Arrays;
 

@@ -44,6 +44,7 @@ public class MeterDataController {
     @ApiOperation("通过id查询电力数据")
     @GetMapping("/get")
     public CommonResult get() {
+
         return CommonResult.success(meterDataService.list());
     }
 

@@ -5,11 +5,12 @@ spring:
       enabled: false
   datasource:
     platform: postgres
-    url: jdbc:postgresql://10.12.6.169:5432/electricity
+    url: jdbc:postgresql://10.12.6.169:5432/electricity?characterEncoding=utf-8&serverTimezone=GMT%2B8
     username: postgres
     password: guowushi
     driver-class-name: org.postgresql.Driver
-
+    default-time-zone: +08:00
+    character-set-server: utf8
 
 # ====================MybatisPlus====================
 mybatis-plus:

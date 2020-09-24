@@ -6,9 +6,12 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 
 /**
  * <p>
@@ -35,7 +38,7 @@ public class MeterData implements Serializable {
     private LocalDateTime acquisitionTime;
 
     @ApiModelProperty(value = "保存时间")
-    private LocalDateTime saveTime;
+    private OffsetDateTime saveTime;
 
     @ApiModelProperty(value = "A相电压")
     private float  voltageA;
@@ -114,7 +117,7 @@ public class MeterData implements Serializable {
 
 
     public void setSaveTime(){
-        saveTime = LocalDateTime.now();
+        saveTime = OffsetDateTime.now();
     }
 
 }

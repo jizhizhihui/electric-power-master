@@ -104,14 +104,14 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>2.7.0</version>
+            <version>${swagger.version}</version>
         </dependency>
 
         <!--swagger-ui -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.7.0</version>
+            <version>${swagger.version}</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -119,12 +119,7 @@
             <version>${fastjson.version}</version>
         </dependency>
 
-        <!-- yaml加密-->
-        <dependency>
-            <groupId>com.github.ulisesbocchio</groupId>
-            <artifactId>jasypt-spring-boot-starter</artifactId>
-            <version>2.1.0</version>
-        </dependency>
+
 
     </dependencies>
 

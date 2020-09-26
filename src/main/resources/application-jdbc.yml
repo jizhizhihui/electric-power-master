@@ -2,7 +2,7 @@
 spring:
   security:
     basic:
-      enabled: false
+      enabled: flase
   datasource:
     platform: postgres
     url: jdbc:postgresql://10.12.6.169:5432/electricity?characterEncoding=utf-8&serverTimezone=GMT%2B8
@@ -45,3 +45,8 @@ mybatis-plus:
 logging:
   level:
     org.springframework: warn
+
+#加密配置
+jasypt:
+  encryptor:
+    password: PWDSalt

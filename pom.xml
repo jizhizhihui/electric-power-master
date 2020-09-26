@@ -29,6 +29,9 @@
         <kaptcha.version>2.3.2</kaptcha.version>
         <swagger.version>2.9.0</swagger.version>
         <fastjson.version>1.2.47</fastjson.version>
+        <jasypt.version>2.1.0</jasypt.version>
+
+
     </properties>
 
 
@@ -113,16 +116,27 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${swagger.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>${fastjson.version}</version>
         </dependency>
 
+        <!--MySql 连接-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
-
+        <!--加密工具-->
+        <dependency>
+            <groupId>com.github.ulisesbocchio</groupId>
+            <artifactId>jasypt-spring-boot-starter</artifactId>
+            <version>${jasypt.version}</version>
+        </dependency>
     </dependencies>
-
 
     <repositories>
         <repository>

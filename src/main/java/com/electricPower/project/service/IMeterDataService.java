@@ -1,5 +1,8 @@
 package com.electricPower.project.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.electricPower.project.entity.MeterData;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -12,5 +15,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-09-17
  */
 public interface IMeterDataService extends IService<MeterData> {
+
+
 
 }

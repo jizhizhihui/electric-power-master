@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
@@ -38,7 +39,7 @@ public class MeterData implements Serializable {
     private LocalDateTime acquisitionTime;
 
     @ApiModelProperty(value = "保存时间")
-    private OffsetDateTime saveTime;
+    private LocalDateTime saveTime;
 
     @ApiModelProperty(value = "A相电压")
     private float  voltageA;
@@ -117,7 +118,8 @@ public class MeterData implements Serializable {
 
 
     public void setSaveTime(){
-        saveTime = OffsetDateTime.now();
+       // saveTime = LocalDateTime.now();
+        saveTime = LocalDateTime.now();
     }
 
 }

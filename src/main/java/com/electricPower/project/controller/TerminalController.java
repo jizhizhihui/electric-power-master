@@ -42,10 +42,6 @@ public class TerminalController {
         return CommonResult.success(iTerminalService.list());
     }
 
-//    @ApiOperation("分页查询采集终端表数据")
-//    @GetMapping("/list")
-
-
     @ApiOperation("添加采集终端表数据")
     @PostMapping("/add")
     public CommonResult add( @RequestBody Terminal terminal) {

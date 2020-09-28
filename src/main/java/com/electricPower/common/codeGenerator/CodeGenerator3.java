@@ -14,12 +14,17 @@ import java.util.List;
 
 public class CodeGenerator3 {
 
+    /**
+     *与数据库相关的都改成自己的
+     *
+     *
+     * */
     private static String url = "jdbc:postgresql://10.12.6.169:5432/electricity";
     private static String user = "postgres";
     private static String password = "guowushi";
     private static String driverName = "org.postgresql.Driver";
-    private static String author = "com.chaFan";
-    private static String outputDir = "/src/main/java/";
+    private static String author = "com.chaFan";//这里是开发者署名
+    private static String outputDir = "/src/main/java/";//新建的Java项目的目录结构
     private static String packageName = "com.electricPower.project";//生成的东西放在这个包里
     private static String tablePrefix = "t_"; //表前缀
     private static String projectPath = System.getProperty("user.dir");
@@ -28,7 +33,7 @@ public class CodeGenerator3 {
 
         //数据库连接
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
-        dataSourceConfig.setDbType(DbType.POSTGRE_SQL)
+        dataSourceConfig.setDbType(DbType.POSTGRE_SQL)//这里注意后缀.POSTGRE_SQL这个是数据库，用的什么数据库就写什么
                 .setUrl(url)
                 .setUsername(user)
                 .setPassword(password)
@@ -48,7 +53,9 @@ public class CodeGenerator3 {
 //                .setXmlName("%sMapper");
 
         List<FileOutConfig> focList = new ArrayList<>();
-        focList.add(new FileOutConfig("/templates/mapper.xml.ftl") {   //"/mybatis/mapper.xml.ftl"
+        focList.add(new FileOutConfig("/templates/mapper.xml.ftl") {
+            //代码生成器的模板，通过读取这个模板生成entity、mapper 、service 、implService、xml
+            // "/mybatis/mapper.xml.ftl"
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输入文件名称

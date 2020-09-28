@@ -17,4 +17,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class PowerLineServiceImpl extends ServiceImpl<PowerLineMapper, PowerLine> implements IPowerLineService {
 
+    @Override
+    public Boolean updateById(String lineSn) {
+        return null;
+    }
 }

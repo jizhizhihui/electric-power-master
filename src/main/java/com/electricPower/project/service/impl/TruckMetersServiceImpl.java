@@ -17,4 +17,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class TruckMetersServiceImpl extends ServiceImpl<TruckMetersMapper, TruckMeters> implements ITruckMetersService {
 
+    @Override
+    public Boolean updateById(String sn) {
+        return null;
+    }
 }

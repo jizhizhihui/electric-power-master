@@ -17,4 +17,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class HouseHoldMetersServiceImpl extends ServiceImpl<HouseHoldMetersMapper, HouseHoldMeters> implements IHouseHoldMetersService {
 
+    @Override
+    public Boolean updateById(String sn) {
+        return null;
+    }
 }

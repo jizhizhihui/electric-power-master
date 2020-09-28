@@ -35,8 +35,7 @@ public class BasicFrame implements Serializable {
     private String end;
 
     @Override
-    public String toString(){
-        return start + " " + length + " " + ctrl + " " + address + " " + check + " " + end;
+    public String toString(){ return start + " " + length + " " + ctrl + " " + address + " " + check + " " + end;
     }
 
     public static void main(String[] args) {

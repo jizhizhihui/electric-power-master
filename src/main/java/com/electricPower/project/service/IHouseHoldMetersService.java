@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IHouseHoldMetersService extends IService<HouseHoldMeters> {
 
+    Boolean updateById(String sn);
 }

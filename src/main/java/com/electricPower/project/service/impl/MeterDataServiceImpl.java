@@ -1,5 +1,8 @@
 package com.electricPower.project.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.electricPower.project.entity.MeterData;
 import com.electricPower.project.mapper.HouseHoldMetersMapper;
 import com.electricPower.project.mapper.MeterDataMapper;
@@ -20,4 +23,6 @@ import javax.annotation.Resource;
  */
 @Service
 public class MeterDataServiceImpl extends ServiceImpl<MeterDataMapper, MeterData> implements IMeterDataService {
+
+
 }

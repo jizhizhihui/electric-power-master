@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IPowerLineService extends IService<PowerLine> {
 
+    Boolean updateById(String lineSn);
 }

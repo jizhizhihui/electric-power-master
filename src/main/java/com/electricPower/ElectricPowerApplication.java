@@ -1,10 +1,12 @@
 package com.electricPower;
 
+import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.electricPower.common.config.ThreadPoolConfigurer;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -38,4 +40,15 @@ public class ElectricPowerApplication {
 				.allowedMethods("*");
 
 	}
+
+
+	//分页插件
+	public class MybatisPlusConfig {
+		@Bean
+		public PaginationInterceptor paginationInterceptor() {
+			return new PaginationInterceptor();
+		}
+	}
+
+
 }

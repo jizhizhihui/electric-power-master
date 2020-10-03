@@ -7,10 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
-/**
- * @author 丁许
- * @date 2019-01-24 22:24
- */
 @Configuration
 @Slf4j
 @PropertySource("classpath:application-task.yml")

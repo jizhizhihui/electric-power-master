@@ -30,10 +30,10 @@ public class ThreadTest {
                         "80 25 00 65 20 08 06 11 15 00 " +  //温湿度 + 时间戳
                         "D1 16";//后校验
 
-        MeterData meterData = FrameUtils.analysisLien(message);
-        meterData.setMeterSn("test");
+//        MeterData meterData = FrameUtils.analysisLien(message,true);
+//        meterData.setMeterSn("test");
 
-        meterDataService.save(meterData);
+//        meterDataService.save(meterData);
     }
 
 }

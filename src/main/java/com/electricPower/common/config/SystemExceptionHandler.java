@@ -2,6 +2,7 @@
 //
 //import com.electricPower.common.result.ResponseEntity;
 //import com.electricPower.common.result.ServiceException;
+//import lombok.extern.log4j.Log4j2;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 //import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -16,16 +17,9 @@
 //import java.text.SimpleDateFormat;
 //import java.util.Date;
 //
-///**
-// * @ClassName：SystemExceptionHandler
-// * @Description：TODO
-// * @author：huangyongfa
-// * @date：2017年08月08日
-// */
 //@ControllerAdvice
+//@Log4j2
 //public class SystemExceptionHandler {
-//
-//	private Logger logger = LoggerFactory.getLogger(this.getClass());
 //
 //	/**
 //	 * 解决Form请求无法转换日期问题

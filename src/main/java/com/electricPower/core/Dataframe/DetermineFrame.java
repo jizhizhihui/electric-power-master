@@ -27,7 +27,7 @@ public class DetermineFrame extends BasicFrame {
             setStart(frame[0]);
             setLength(frame[1]);
             setCtrl(frame[2]);
-            setAddress(StringUtils.subString(frame, 3, 3));
+            setAddress(StringUtils.subString(frame, 3, 8));
             setCheck(frame[frame.length - 2]);
             setEnd(frame[frame.length - 1]);
         } else {
@@ -61,5 +61,8 @@ public class DetermineFrame extends BasicFrame {
 //                        "80 25 00 65 20 08 06 11 15 00 " +  //温湿度 + 时间戳
 //                        "D1 16";//后校验
 
+        DetermineFrame determineFrame = new DetermineFrame();
+        determineFrame.setDetermineFrame(s.split(" "));
+        log.info(determineFrame.getAddress());
     }
 }

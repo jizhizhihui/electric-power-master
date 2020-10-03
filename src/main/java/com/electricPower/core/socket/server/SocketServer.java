@@ -1,13 +1,8 @@
 package com.electricPower.core.socket.server;
 
-import com.electricPower.common.config.ApplicationContextProvider;
 import com.electricPower.core.socket.constants.SocketConstant;
-import com.electricPower.project.service.IMeterDataService;
-import com.electricPower.project.service.impl.MeterDataServiceImpl;
-import com.electricPower.utils.FrameUtils;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,7 +15,7 @@ import java.util.List;
 import java.util.concurrent.*;
 
 /**
- * @author 丁许
+ * socket 服务
  */
 @Slf4j
 @Data

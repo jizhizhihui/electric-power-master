@@ -3,6 +3,8 @@ package com.electricPower;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.electricPower.common.aop.OperLog;
+import com.electricPower.common.aop.OperationType;
 import com.electricPower.common.result.CommonResult;
 import com.electricPower.project.entity.MeterData;
 import com.electricPower.project.service.IMeterDataService;
@@ -32,6 +34,7 @@ public class MeterDataController {
 
     @ApiOperation("查询所有数据")
     @GetMapping("/list")
+    @OperLog(operationModel = "电力数据",operationType = OperationType.GET,operationDesc = "获取电力数据集合")
     public CommonResult getList() {
 
       // QueryWrapper queryWrapper = new QueryWrapper<>();
@@ -43,6 +46,7 @@ public class MeterDataController {
 
     @ApiOperation("通过id查询电力数据")
     @GetMapping("/get")
+    @OperLog(operationModel = "电力数据",operationType = OperationType.GET,operationDesc = "通过主键获取电力数据")
     public CommonResult get() {
         return CommonResult.success(meterDataService.list());
     }

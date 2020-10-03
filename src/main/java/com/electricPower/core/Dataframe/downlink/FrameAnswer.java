@@ -18,6 +18,7 @@ public class FrameAnswer extends BasicFrame{
     public FrameAnswer(String ctrl,String terminalAddress, String ansFlag){
         setStart("43");
         setLength("12");
+        setAddress(terminalAddress);
         setEnd("16");
         setCtrl(ctrl);
         this.ansFlag = ansFlag;

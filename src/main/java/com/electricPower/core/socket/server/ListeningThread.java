@@ -9,6 +9,9 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * 监听
+ */
 @Slf4j
 class ListeningThread extends Thread {
 	private SocketServer socketServer;

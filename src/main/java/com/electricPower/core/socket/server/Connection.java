@@ -8,14 +8,13 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Date;
+import java.util.List;
 
 import static com.electricPower.core.socket.constants.SocketConstant.RETRY_COUNT;
 
 
 /**
  * 封装socket添加println方法
- *
- * @author 丁许
  */
 @Slf4j
 @Data
@@ -37,7 +36,7 @@ public class Connection {
 //	private boolean isLogin;
 
 	/**
-	 * 存储当前的终端地址
+	 * 当前终端地址
 	 */
 	private byte[] address;
 

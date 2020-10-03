@@ -4,10 +4,6 @@ import lombok.extern.log4j.Log4j2;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Arrays;
 import java.util.Date;
 
 @Log4j2
@@ -22,6 +18,8 @@ public class BCDUtils {
      * @return float
      */
     public static float stringBCDToFloat(String bcd, int decimal, boolean sign) {
+
+        log.info(bcd);
 
         float num = 0;
         if (decimal != 0) {

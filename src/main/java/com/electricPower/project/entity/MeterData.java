@@ -111,10 +111,4 @@ public class MeterData implements Serializable {
 
     @ApiModelProperty(value = "运行状态字7（总表才有）")
     private String combinedPhaseFault;
-
-
-    public void setSaveTime(){
-        saveTime = LocalDateTime.now();
-    }
-
 }

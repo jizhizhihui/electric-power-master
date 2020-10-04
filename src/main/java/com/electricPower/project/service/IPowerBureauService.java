@@ -2,6 +2,9 @@ package com.electricPower.project.service;
 
 import com.electricPower.project.entity.PowerBureau;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.electricPower.project.entity.vo.PbPs;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IPowerBureauService extends IService<PowerBureau> {
 
+    PbPs getBureauAndSupply(String powerBureauName);
 }

@@ -1,7 +1,6 @@
 package com.electricPower.common.aop;
 
 import com.alibaba.druid.support.json.JSONUtils;
-import com.electricPower.common.result.CommonResult;
 import com.electricPower.project.entity.OperExceptionLog;
 import com.electricPower.project.entity.OperationLog;
 import com.electricPower.project.service.IOperExceptionLogService;

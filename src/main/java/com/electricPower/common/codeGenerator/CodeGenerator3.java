@@ -23,7 +23,7 @@ public class CodeGenerator3 {
     private static String user = "postgres";
     private static String password = "guowushi";
     private static String driverName = "org.postgresql.Driver";
-    private static String author = "com.chaFan";//这里是开发者署名
+    private static String author = "";//这里是开发者署名
     private static String outputDir = "/src/main/java/";//新建的Java项目的目录结构
     private static String packageName = "com.electricPower.project";//生成的东西放在这个包里
     private static String tablePrefix = "t_"; //表前缀

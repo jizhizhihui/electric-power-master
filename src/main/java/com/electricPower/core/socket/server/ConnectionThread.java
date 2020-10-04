@@ -4,33 +4,20 @@ import com.electricPower.common.config.ApplicationContextProvider;
 import com.electricPower.common.exception.frame.FrameCheckFailureException;
 import com.electricPower.core.Dataframe.CtrlFrame;
 import com.electricPower.core.Dataframe.DetermineFrame;
-
 import com.electricPower.common.exception.frame.FrameInvalidCtrlException;
 import com.electricPower.core.Dataframe.downlink.FrameAnswer;
-import com.electricPower.core.socket.client.SocketClient;
 import com.electricPower.project.entity.AlarmInfo;
 import com.electricPower.project.entity.MeterData;
 import com.electricPower.project.service.IAlarmInfoService;
 import com.electricPower.project.service.IMeterDataService;
-import com.electricPower.project.service.impl.MeterDataServiceImpl;
 import com.electricPower.utils.FrameUtils;
 import com.electricPower.utils.HexUtils;
-import com.electricPower.utils.StringUtils;
-import javafx.application.Application;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.scheduling.annotation.Async;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -203,14 +190,14 @@ public class ConnectionThread extends Thread {
 
                 log.info(CtrlFrame.LINE.getMsg());
                 MeterData line = FrameUtils.analysisLien(message, true);
-                line.setMeterSn(determineFrame.getAddress());
+                line.setLineSn(determineFrame.getAddress());
                 meterDataService.save(line);
 
             } else if (CtrlFrame.MASTER.getVal().equals(ctrl)) {
 
                 log.info(CtrlFrame.MASTER.getMsg());
                 MeterData master = FrameUtils.analysisLien(message, false);
-                master.setMeterSn(determineFrame.getAddress());
+                master.setLineSn(determineFrame.getAddress());
                 meterDataService.save(master);
 
             } else if (CtrlFrame.ALARM.getVal().equals(ctrl)) {

@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -31,30 +32,24 @@ public class MeterDataServiceImpl extends ServiceImpl<MeterDataMapper, MeterData
         public List getVoltage(String lineSn ) {
             QueryWrapper<MeterData> queryWrapper = new QueryWrapper<>();    // select用于筛选需要的字段
             queryWrapper.in("line_sn", Collections.singletonList(lineSn)).select("line_sn","voltage_a","voltage_b","voltage_c","save_time");
-            return getBaseMapper().selectList(queryWrapper);
+            return getBaseMapper().selectMaps(queryWrapper);
         }
 
         public List getCurrent(String lineSn){
             QueryWrapper<MeterData> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("line_sn",lineSn).select("line_sn","current_a","current_b","current_c","save_time");
-            return getBaseMapper().selectList(queryWrapper);
+            return getBaseMapper().selectMaps(queryWrapper);
         }
 
         public List getLineSn(String line_sn){
             QueryWrapper<MeterData> queryWrapper = new QueryWrapper<>();
             queryWrapper.like("line_sn",line_sn);    //List<MeterData>meterDataList = meterDataService.list(queryWrapper);
-            return getBaseMapper().selectList(queryWrapper);
+            return getBaseMapper().selectMaps(queryWrapper);
             }
 
         @Override
         public Object getPaging(Integer current, Integer size) {
             return null;
         }
-
-        //        public Page<MeterData> getPaging(Integer current, Integer size){
-        //                Page<MeterData> page = new Page<>(current,size);  //current 是当前页数，size 是每页有多少条数据
-        //                return getBaseMapper().page(page);
-        //            }
-
 
 }

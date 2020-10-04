@@ -16,5 +16,7 @@ import java.util.List;
  */
 public interface IPowerBureauService extends IService<PowerBureau> {
 
-    PbPs getBureauAndSupply(String powerBureauName);
+    PbPs getBureauAndSupply(Integer powerSupplyToId);
+
+    Object getBureau();
 }

@@ -65,4 +65,4 @@ class ListeningThread extends Thread {
 		}
 		isRunning = false;
 	}
-} 
+}

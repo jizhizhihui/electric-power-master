@@ -8,8 +8,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  *  服务类
  * </p>
  *
- * @author com.chaFan
- * @since 2020-09-17
+ * @author 
+ * @since 2020-10-04
  */
 public interface ITerminalService extends IService<Terminal> {
 

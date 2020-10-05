@@ -1,6 +1,6 @@
 package com.electricPower.project.service;
 
-import com.electricPower.project.entity.PowerLine;
+import com.electricPower.project.entity.AlarmInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author 
  * @since 2020-10-04
  */
-public interface IPowerLineService extends IService<PowerLine> {
+public interface IAlarmInfoService extends IService<AlarmInfo> {
 
 }

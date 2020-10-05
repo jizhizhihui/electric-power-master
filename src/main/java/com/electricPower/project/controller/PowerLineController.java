@@ -3,6 +3,7 @@ package com.electricPower.project.controller;
 
 import com.electricPower.common.result.CommonResult;
 import com.electricPower.project.entity.PowerLine;
+import com.electricPower.project.entity.PowerSupply;
 import com.electricPower.project.service.IPowerLineService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,40 +16,48 @@ import org.springframework.web.bind.annotation.*;
  *  前端控制器
  * </p>
  *
- * @author com.chaFan
- * @since 2020-09-17
+ * @author 
+ * @since 2020-10-04
  */
-@Api(tags = "用户供电线路表")
+@Api(tags = "供电线路表")
 @RestController
 @RequestMapping("/power-line")
 @Slf4j
 public class PowerLineController {
 
     @Autowired
-    private IPowerLineService iPowerLineService;
+    private IPowerLineService powerLineService;
 
-    @ApiOperation("查询所有数据")
+    @ApiOperation("查询供电线路所有数据")
     @GetMapping("/list")
-    public CommonResult getList(){
-        return CommonResult.success(iPowerLineService.list());
+    public CommonResult getList() {
+        return CommonResult.success(powerLineService.list());
     }
 
-    @ApiOperation("添加数据")
+    @ApiOperation("根据Id查询供电线路数据")
+    @GetMapping("/getLineSn")
+    public CommonResult get(String lineSn) {
+        return CommonResult.success(powerLineService.getById(lineSn));
+    }
+
+    @ApiOperation("添加供电线路数据")
     @PostMapping("/add")
-    public CommonResult add(PowerLine powerLine){
-        return CommonResult.success(iPowerLineService.save(powerLine));
+    public CommonResult add(@RequestBody PowerLine powerLine) {
+        return CommonResult.success(powerLineService.save(powerLine));
     }
 
-    @ApiOperation("根据高压线路ID跟新数据")
+    @ApiOperation("更新供电线路数据")
     @PutMapping("/update")
-    public CommonResult update(String lineSn){
-        return CommonResult.success(iPowerLineService.updateById(lineSn));
+    public CommonResult update(@RequestBody PowerLine powerLine) {
+
+        return CommonResult.success(powerLineService.updateById(powerLine));
     }
 
-    @ApiOperation("根据高压线路ID跟新数据")
+    @ApiOperation("通过id删除供电线路数据")
     @DeleteMapping("/delete")
-    public CommonResult delete(String lineSn){
-        return CommonResult.success(iPowerLineService.removeById(lineSn));
+    public CommonResult delete(String id) {
+
+        return CommonResult.success(powerLineService.removeById(id));
     }
 
 }

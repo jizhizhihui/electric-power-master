@@ -11,14 +11,10 @@ import org.springframework.stereotype.Service;
  *  服务实现类
  * </p>
  *
- * @author com.chaFan
- * @since 2020-09-17
+ * @author 
+ * @since 2020-10-04
  */
 @Service
 public class PowerLineServiceImpl extends ServiceImpl<PowerLineMapper, PowerLine> implements IPowerLineService {
 
-    @Override
-    public Boolean updateById(String lineSn) {
-        return null;
-    }
 }

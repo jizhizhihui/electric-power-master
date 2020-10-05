@@ -36,6 +36,8 @@ public class FrameAnswer extends BasicFrame{
         return getStart() + " " + getLength() + " " + getCtrl() + " " + getAddress() + " " + getAnsFlag() + " " +  getTime() + " " + getCheck() + " " + getEnd();
     }
 
+
+
     public static void main(String[] args) {
 
         FrameAnswer frameAnswer = new FrameAnswer("80","11 11 11 11 11 11","00");

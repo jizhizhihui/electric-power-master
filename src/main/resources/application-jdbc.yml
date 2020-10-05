@@ -38,6 +38,7 @@ mybatis-plus:
     cache-enabled: false
     #配置JdbcTypeForNull, oracle数据库必须配置
     jdbc-type-for-null: 'null'
+    # 打印sql语句和入参数据
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     database-id: mysql
 

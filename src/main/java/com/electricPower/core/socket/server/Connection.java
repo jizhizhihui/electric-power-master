@@ -1,9 +1,11 @@
 package com.electricPower.core.socket.server;
 
+import io.swagger.models.auth.In;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -55,13 +57,14 @@ public class Connection {
 		this.connectionThread = connectionThread;
 	}
 
-	public void println(String message) {
+	public void println(byte[] message) {
 		int count = 0;
-		PrintWriter writer;
+		OutputStream writer;
 		do {
 			try {
-				writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
-				writer.println(message);
+				writer = socket.getOutputStream();
+				writer.write(message);
+				writer.flush();
 				break;
 			} catch (IOException e) {
 				log.info("说明client端socket异常");

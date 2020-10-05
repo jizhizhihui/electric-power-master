@@ -26,7 +26,7 @@ public class CodeGenerator3 {
     private static String author = "com.chaFan";//这里是开发者署名
     private static String outputDir = "/src/main/java/";//新建的Java项目的目录结构
     private static String packageName = "com.electricPower.project";//生成的东西放在这个包里
-    private static String tablePrefix = "t_"; //表前缀
+    private static String tablePrefix = ""; //表前缀
     private static String projectPath = System.getProperty("user.dir");
 
     public static void main(String[] args) {
@@ -75,7 +75,7 @@ public class CodeGenerator3 {
                 .setRestControllerStyle(true) //RestController注解
                 .setControllerMappingHyphenStyle(true)          //驼峰转连字符
                 .setTablePrefix(tablePrefix);  //表前缀
-//                .setInclude("line_meters") // 需要生成的表,默认全部
+//                .setInclude("operation_log"); // 需要生成的表,默认全部
 //                //.setExclude(new String[]{"test"}) // 排除生成的表
 //                .setSuperEntityClass("com.baomidou.demo.base.BsBaseEntity") //自定义实体父类
 //                .setSuperMapperClass("com.baomidou.demo.base.BsBaseMapper")   // 自定义 mapper 父类

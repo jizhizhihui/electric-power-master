@@ -50,19 +50,21 @@ public class FrameUtils {
         meterData.setPowerFactorB(BCDUtils.stringBCDToFloat(strings[count + 3] + strings[count + 4], 3, true));
         meterData.setPowerFactorC(BCDUtils.stringBCDToFloat(strings[count + 5] + strings[count + 6], 3, true));
 
-        //温度
+
         if (lien) {
+            //温度
             meterData.setTemperature((int) BCDUtils.stringBCDToFloat(strings[count + 7] + strings[count + 8], 0, true));
             //湿度
             if (strings[count +9].equals("FF") && strings[count +10].equals("FF"))
                 log.info("该字段无效");
             else
                 meterData.setHumidity((int) BCDUtils.stringBCDToFloat(strings[count +9] + strings[count +10], 0, true));
+            count += 4;
         }
 
         //运行状态字
-        count += 10;
         if (!lien){
+            count += 6;
             meterData.setPhaseFaultA(strings[count+1]);
             meterData.setPhaseFaultB(strings[count+2]);
             meterData.setPhaseFaultC(strings[count+3]);
@@ -94,6 +96,13 @@ public class FrameUtils {
         return alarmInfo;
     }
 
+    public static String anylysisAlarmSign(String sign){
+
+        String[] strings = sign.split(" ");
+        log.info(Integer.parseInt(strings[0],2) + "::: " +  Integer.parseInt(strings[1],2));
+        return "";
+    }
+
     public static String creatCheck(String message) {
         String[] s = message.split(" ");//split() 方法根据匹配给定的正则表达式来拆分字符串。
         //产生校验帧
@@ -106,10 +115,19 @@ public class FrameUtils {
         return c.substring(c.length() - 2);
     }
 
+    public static String creatFrame(String frame){
+        String[] strings = frame.split(" ");
+        StringBuilder nowFrame = new StringBuilder();
+        for (String s: strings) {
+            nowFrame.append((byte)Integer.parseInt(s, 16));
+        }
+        return nowFrame.toString();
+    }
+
     public static void main(String[] args) {
         String message = "43 11 3F 11 11 11 11 11 11 20 09 08 10 11 12 5D 16";
 
-        log.info(creatCheck(message));
+        log.info(creatFrame(message));
     }
 
 }

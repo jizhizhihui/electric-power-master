@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http:
+                         //mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.electricPower.project.mapper.TerminalMapper">
+
+    <select id="getType2"  resultType="com.electricPower.project.entity.Terminal">
+        select * from terminal
+        <where>
+            <if test="householdSn != null and householdSn != ''">
+                and household_sn = #{householdSn}
+            </if>
+            <if test="department != null and department != ''">
+                and department = #{department}
+            </if>
+            <if test="lineSn != null and lineSn != ''">
+                and line_sn = #{lineSn}
+            </if>
+            <if test="terminalNum != null and terminalNum != ''">
+                and terminal_num = #{terminalNum}
+            </if>
+            <if test="location != null and location != ''">
+                and location = #{location}
+            </if>
+            <if test="putOperationDate != null and putOperationDate != ''">
+                and put_operation_date = #{putOperationDate}
+            </if>
+            <if test="type != null and type != ''">
+                and type = #{type}
+            </if>
+            <!--            <if test="line != null and line != ''">-->
+            <!--                and line = #{line}-->
+            <!--            </if>-->
+            <!--            <if test="subStationAreas != null and subStationAreas != ''">-->
+            <!--                and sub_station_areas = #{subStationAreas}-->
+            <!--            </if>-->
+        </where>
+    </select>
+    
+    <delete id="DelType2" parameterType="String">
+        DELETE FROM terminal WHERE household_sn = #{household_sn}
+    </delete>
+
+</mapper>
+
+
+
+<!--<resultMap id="blogResult" type="Blog">-->
+<!--<id property="id" column="id" />-->
+<!--<result property="title" column="title"/>-->
+
+<!--    <association property="author" javaType="Author" resultSet="authors" column="author_id" foreignColumn="id">-->
+<!--        <id property="id" column="id"/>-->
+<!--        <result property="username" column="username"/>-->
+<!--        <result property="password" column="password"/>-->
+<!--        <result property="email" column="email"/>-->
+<!--        <result property="bio" column="bio"/>-->
+<!--    </association>-->
+
+<!--</resultMap>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--    <resultMap id="TerminalVo" type="com.electricPower.project.entity.Terminal">-->
+
+<!--        <result column="terminal_num" property="terminalNum"/>-->
+<!--        <result column="model" property="model"/>-->
+<!--        <result column="type" property="type"/>-->
+<!--        <result column="comm_protocol" property="commProtocol"/>-->
+<!--        <result column="comm_address" property="commAddress"/>-->
+<!--        <result column="sim_number" property="simNumber"/>-->
+<!--        <result column="location" property="location"/>-->
+<!--        <result column="department" property="department"/>-->
+<!--        <result column="household_sn" property="householdSn"/>-->
+<!--        <result column="sn" property="sn"/>-->
+<!--        <result column="is_alive" property="isAlive"/>-->
+<!--        <result column="line_sn" property="lineSn"/>-->
+<!--        <result column="put_operation_date" property="putOperationDate"/>-->
+<!--&lt;!&ndash;            <association property="PowerLine" javaType="com.electricPower.project.entity.PowerLine">&ndash;&gt;-->
+<!--&lt;!&ndash;                <result column="line" property="line"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                <result column="sub_station_areas" property="subStationAreas"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            </association>&ndash;&gt;-->
+
+
+<!--    </resultMap>-->
+
+
+<!--    &lt;!&ndash; resultMap中的type表示返回什么类型的对象 &ndash;&gt;-->
+<!--    <resultMap type="com.mybatis.bean.StudentTemp" id="studentClassMap">-->
+<!--        &lt;!&ndash; property 表示com.mybatis.bean.StudentTemp中的属性； column 表示表中的列名 &ndash;&gt;-->
+<!--        <id property="studentid" column="s_id" />-->
+<!--        <result property="studentname" column="s_name" />-->
+
+<!--        &lt;!&ndash; association字面意思关联，这里只专门做一对一关联； property表示是com.mybatis.bean.StudentTemp中的属性名称；-->
+<!--            javaType表示该属性是什么类型对象 &ndash;&gt;-->
+<!--        <association property="tempClass" javaType="com.mybatis.bean.Class">-->
+<!--            &lt;!&ndash; property 表示com.mybatis.bean.Class中的属性； column 表示表中的列名 &ndash;&gt;-->
+<!--            <id property="classid" column="class_id" />-->
+<!--            <result property="classname" column="class_name" />-->
+<!--        </association>-->
+<!--    </resultMap>-->
+
+<!--    <sql id="terminalAll">-->
+<!--        select * from terminal-->
+<!--    </sql>-->
+

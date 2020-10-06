@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务实现类
@@ -58,6 +60,18 @@ public class PowerBureauServiceImpl extends ServiceImpl<PowerBureauMapper, Power
         return list;
     }
 
+
+
+    public List getBureauAndSupply(){
+        PowerBureau powerBureau = new PowerBureau();
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.select("power_bureau_id","p_b_name");
+        List list = getBaseMapper().selectList(queryWrapper);
+        list.add(powerBureau.getPowerBureauId());
+        list.add(powerBureau.getPBName());
+        System.out.println(list);
+        return list;
+    }
 
 
 }

@@ -11,6 +11,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class ElectricPowerApplication {
 
 	public static void main(String[] args) {
+		//spring应用启动
 		SpringApplication.run(ElectricPowerApplication.class, args);
 	}
 }

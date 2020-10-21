@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
  *  服务实现类
  * </p>
  *
- * @author 
- * @since 2020-10-04
+ * @author com.chaFan
+ * @since 2020-09-28
  */
 @Service
 public class AlarmInfoServiceImpl extends ServiceImpl<AlarmInfoMapper, AlarmInfo> implements IAlarmInfoService {

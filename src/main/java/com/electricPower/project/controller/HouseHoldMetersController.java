@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
  *  前端控制器
  * </p>
  *
- * @author 
+ * @author
  * @since 2020-10-04
  */
 @Api(tags = "后端表箱")

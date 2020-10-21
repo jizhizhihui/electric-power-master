@@ -11,7 +11,7 @@ import java.util.List;
  *  服务类
  * </p>
  *
- * @author 
+ * @author
  * @since 2020-10-04
  */
 public interface IPowerBureauService extends IService<PowerBureau> {

@@ -4,5 +4,4 @@ spring:
   profiles:
     include: jdbc
     active: task
-
 version: 1.0

@@ -9,7 +9,7 @@ import com.electricPower.project.entity.vo.PsPl;
  *  服务类
  * </p>
  *
- * @author 
+ * @author
  * @since 2020-10-04
  */
 public interface IPowerSupplyService extends IService<PowerSupply> {

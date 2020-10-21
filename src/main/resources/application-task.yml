@@ -21,3 +21,22 @@ task:
     start: 43
     # 结束字符
     end: 16
+
+  # MQTT
+  mqtt:
+    # MQTT 连接地址 如果有多个，用逗号隔开
+    host: tcp://127.0.0.1:1883
+    # 用户名
+    username: guest
+    # 密码
+    password: guest
+    # 默认主题
+    topic: defaultTopic
+    # clientId 唯一
+    clientId: mqttProducer
+    # 连接超时 单位：毫秒
+    timeout: 3000
+    # 心跳
+    keepAlive: 60
+    # 断线重连
+    reconnect: true

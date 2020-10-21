@@ -1,11 +1,15 @@
 package com.electricPower.utils;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+//import com.electricPower.project.entity.AlarmInfo;
 import com.electricPower.project.entity.AlarmInfo;
 import com.electricPower.project.entity.MeterData;
 import lombok.extern.log4j.Log4j2;
 
 import java.text.ParseException;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 @Log4j2
 public class FrameUtils {
@@ -13,6 +17,18 @@ public class FrameUtils {
     public static MeterData analysisLien(String message, boolean lien) {
         MeterData meterData = new MeterData();
         String[] strings = message.split(" ");
+
+        //时间
+        meterData.setSaveTime(LocalDateTime.now());
+        try {
+            int  l = strings.length;
+            meterData.setAcquisitionTime(DateTimeUtils.dateToLocalDateTime(BCDUtils.stringBCDToDate(strings[l-8], strings[l-7], strings[l-6], strings[l-5], strings[l-4], strings[l-3])));
+            log.info("时间戳打印：" + meterData.getAcquisitionTime().toString());
+            if (meterData.getAcquisitionTime().toString().equals("0000-00-00T00:00:00"))
+                return null;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         //电压
         meterData.setVoltageA(BCDUtils.stringBCDToFloat(strings[9] + strings[10], 1, false));
@@ -71,14 +87,6 @@ public class FrameUtils {
             meterData.setCombinedPhaseFault(strings[count+4]);
         }
 
-        //时间
-        meterData.setSaveTime(LocalDateTime.now());
-        try {
-            int  l = strings.length;
-            meterData.setAcquisitionTime(DateTimeUtils.dateToLocalDateTime(BCDUtils.stringBCDToDate(strings[l-8], strings[l-7], strings[l-6], strings[l-5], strings[l-4], strings[l-3])));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
         return meterData;
     }
 
@@ -90,17 +98,30 @@ public class FrameUtils {
         alarmInfo.setAlarmSign(strings[9] + " " + strings[10]);
         alarmInfo.setAlarmCount(Integer.parseInt(strings[11]));
         if (alarmInfo.getAlarmCount() > 0)
-            alarmInfo.setAlarmInfo(StringUtils.subString(strings,12,alarmInfo.getAlarmCount() * 8));
+            alarmInfo.setAlarmInfo(analysisHouseholdAlarm(alarmInfo.getAlarmCount(),StringUtils.subString(strings,12,alarmInfo.getAlarmCount() * 8)));
         alarmInfo.setCreateTime(LocalDateTime.now());
 
         return alarmInfo;
     }
 
-    public static String anylysisAlarmSign(String sign){
+    public static void analysisAlarmSign(String sign){
+        String[] alarmSign = {
+                "保留","线缆温度超限","剩余电流超限","零线电流异常","开表盖开端钮盖","功率因素超下限","电流逆相序","电压逆相序",
+                "断流","断相","过载","过流","失流","过压","欠压","失压"
+        };
 
-        String[] strings = sign.split(" ");
-        log.info(Integer.parseInt(strings[0],2) + "::: " +  Integer.parseInt(strings[1],2));
-        return "";
+        String[] strings = {sign.substring(0,2),sign.substring(2)};
+
+        int[] n={128,64,32,16,8,4,2,1};
+        for(int i = 0,count = 0;i < 2; i++,count+=8) {
+            int num = Integer.parseInt(strings[i],16);
+            for (int j = 0; j < n.length; j++) {
+                if ((num&n[j]) != 0) {
+                    log.info(alarmSign[count+j]);
+                }
+            }
+        }
+//        return "";
     }
 
     public static String creatCheck(String message) {
@@ -124,10 +145,20 @@ public class FrameUtils {
         return nowFrame.toString();
     }
 
-    public static void main(String[] args) {
-        String message = "43 11 3F 11 11 11 11 11 11 20 09 08 10 11 12 5D 16";
+    public static JSONObject analysisHouseholdAlarm(int num, String message){
+        JSONObject jsonObject = new JSONObject();
 
-        log.info(creatFrame(message));
+        String[] msg = message.split(" ");
+        for (int i = 0,count = 0; i < num && count+8 < msg.length; i++,count+=8) {
+            String hma = StringUtils.subString(msg, count, count + 6);
+            jsonObject.put(StringUtils.subString(msg, count, count + 5), msg[count + 7] + msg[count + 8]);
+        }
+        return jsonObject;
     }
 
+    public static void main(String[] args) {
+//        log.info(analysisHouseholdAlarm(3,"11 11 11 11 11 12 12 3A 11 11 11 11 11 11 12 3A 11 11 11 11 11 31 12 3A 11"));
+
+        analysisAlarmSign("123A");
+    }
 }

@@ -35,12 +35,12 @@ public class StringUtils {
      *
      * @param strings String[]
      * @param start   start address
-     * @param count   count
+     * @param end   end address
      * @return String
      */
-    public static String subString(String[] strings, int start, int count) {
+    public static String subString(String[] strings, int start, int end) {
         StringBuilder s = new StringBuilder();
-        for (; start < strings.length && start <= count; start++)
+        for (; start < strings.length && start <= end; start++)
             s.append(strings[start]).append(" ");
         return s.toString().trim();
     }

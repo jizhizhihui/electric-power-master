@@ -17,7 +17,7 @@ public interface TerminalMapper extends BaseMapper<Terminal> {
    // List<Listeners> selectListeners(Listeners listeners);
 
 
-    List<Terminal> getType2(Terminal terminal);
-
-    int DelType2(String id);
+//    List<Terminal> getType2(Terminal terminal);
+//
+//    int DelType2(String id);
 }

@@ -1,5 +1,6 @@
 package com.electricPower.project.service.impl;
 
+
 import com.electricPower.project.entity.Terminal;
 import com.electricPower.project.mapper.TerminalMapper;
 import com.electricPower.project.service.ITerminalService;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service;
  *  服务实现类
  * </p>
  *
- * @author 
+ * @author
  * @since 2020-10-04
  */
 @Service

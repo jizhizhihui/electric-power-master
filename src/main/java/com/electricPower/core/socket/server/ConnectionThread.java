@@ -7,9 +7,12 @@ import com.electricPower.core.Dataframe.DetermineFrame;
 
 import com.electricPower.common.exception.frame.FrameInvalidCtrlException;
 import com.electricPower.core.Dataframe.downlink.FrameAnswer;
+//import com.JZhi.rabbitmq.MsgProducer;
 import com.electricPower.core.socket.client.SocketClient;
+//import com.electricPower.project.entity.AlarmInfo;
 import com.electricPower.project.entity.AlarmInfo;
 import com.electricPower.project.entity.MeterData;
+//import com.electricPower.project.service.IAlarmInfoService;
 import com.electricPower.project.service.IAlarmInfoService;
 import com.electricPower.project.service.IMeterDataService;
 import com.electricPower.project.service.impl.MeterDataServiceImpl;
@@ -37,7 +40,6 @@ import java.util.List;
 
 /**
  * 每一个client连接开一个线程
- *
  */
 @EqualsAndHashCode(callSuper = true)
 @Slf4j
@@ -46,6 +48,8 @@ public class ConnectionThread extends Thread {
 
     private IMeterDataService meterDataService;
     private IAlarmInfoService alarmInfoService;
+
+//    private MsgProducer msgProducer;
 
     /**
      * 客户端的socket
@@ -80,6 +84,7 @@ public class ConnectionThread extends Thread {
     public ConnectionThread(Socket socket, SocketServer socketServer) {
         this.meterDataService = ApplicationContextProvider.getBean(IMeterDataService.class);
         this.alarmInfoService = ApplicationContextProvider.getBean(IAlarmInfoService.class);
+//        this.msgProducer = ApplicationContextProvider.getBean(MsgProducer.class);
         this.socket = socket;
         this.socketServer = socketServer;
         connection = new Connection(socket, this);
@@ -101,12 +106,11 @@ public class ConnectionThread extends Thread {
             }
             try {
                 byte[] bytes = new byte[1024];
-
                 while (socket.getInputStream().read(bytes) > 0) {
                     //接受数据
-                    log.info("服务端收到消息：" + HexUtils.encodeHexStr(bytes,false).replaceAll("0+$", ""));
+//                    log.info("服务端收到消息：" + HexUtils.encodeHexStr(bytes, false).replaceAll("0+$", ""));
                     getFrame(bytes);
-                    Arrays.fill(bytes,(byte)0);
+                    Arrays.fill(bytes, (byte) 0);
                     log.info("服务端收到有效数据帧：" + subpackage.toString());
 
                     //更新心跳判断时间
@@ -120,8 +124,8 @@ public class ConnectionThread extends Thread {
                     subpackage.clear();
                 }
 
-            } catch (IOException e) {
-                log.error("ConnectionThread.run failed. IOException:{}", e.getMessage());
+            } catch (Exception e) {
+                log.error("ConnectionThread.run failed. Exception:{}", e.getMessage());
                 this.stopRunning();
             }
         }
@@ -138,6 +142,7 @@ public class ConnectionThread extends Thread {
 
     /**
      * 获取数据帧
+     *
      * @param bytes 字节数组
      */
     private void getFrame(byte[] bytes) {
@@ -147,7 +152,7 @@ public class ConnectionThread extends Thread {
 
         if (frame.length() > 0) {
             String[] strings = frame.toString().split(" ");
-            for (int i = strings.length; i < Integer.parseInt(strings[1],16); i++) {
+            for (int i = strings.length; i < Integer.parseInt(strings[1], 16); i++) {
                 frame.append(HexUtils.byteToHex(bytes[i]));
                 if (i != Integer.parseInt(strings[1]) - 1)
                     frame.append(" ");
@@ -158,31 +163,32 @@ public class ConnectionThread extends Thread {
         }
 
         while (Integer.toHexString(bytes[start]).equals("43")) {
-                len = bytes[start + 1];
-                if (len >= bytes.length){
-                    len = bytes.length;
+            len = bytes[start + 1];
+            if (len >= bytes.length) {
+                len = bytes.length;
+            }
+            for (int i = start; i < len; i++) {
+                stringBuilder.append(HexUtils.byteToHex(bytes[i]));
+                if (i != len - 1)
+                    stringBuilder.append(" ");
+                if (i == len - 1 && bytes[i] != 22) {
+                    break;
                 }
-                for (int i = start; i < len; i++) {
-                    stringBuilder.append(HexUtils.byteToHex(bytes[i]));
-                    if (i != len - 1)
-                        stringBuilder.append(" ");
-                    if (i == len - 1 && bytes[i] != 22) {
-                        break;
-                    }
-                }
-                start += len;
-                if (len != bytes.length && bytes[start-1] == 22)
-                    subpackage.add(stringBuilder.toString());
-                else
-                    frame.append(stringBuilder);
+            }
+            start += len;
+            if (len != bytes.length && bytes[start - 1] == 22)
+                subpackage.add(stringBuilder.toString());
+            else
+                frame.append(stringBuilder);
         }
     }
 
     /**
      * 操作数据帧（检验，返回，存储）
+     *
      * @param message 数据帧
      */
-    private void doFrame(String message){
+    private void doFrame(String message) {
         DetermineFrame determineFrame = new DetermineFrame();
         determineFrame.setDetermineFrame(message.split(" "));
 
@@ -203,29 +209,25 @@ public class ConnectionThread extends Thread {
                 log.info("应答帧：" + frameAnswer.toString());
                 connection.println(HexUtils.hexToBytes(frameAnswer.toString()));
 
-
-
             } else if (CtrlFrame.LINE.getVal().equals(ctrl)) {
 
                 log.info(CtrlFrame.LINE.getMsg());
                 MeterData line = FrameUtils.analysisLien(message, true);
-                line.setLineSn(determineFrame.getAddress());
-                meterDataService.save(line);
-
-                FrameAnswer frameAnswer = new FrameAnswer("80", determineFrame.getAddress(), "00");
-                log.info("应答帧：" + frameAnswer.toString());
-                connection.println(HexUtils.hexToBytes(frameAnswer.toString()));
+                if (line != null) {
+                    line.setLineSn(determineFrame.getAddress());
+                    meterDataService.save(line);
+                }
+                AnswerFramePrint("80", determineFrame.getAddress(), "00");
 
             } else if (CtrlFrame.MASTER.getVal().equals(ctrl)) {
 
                 log.info(CtrlFrame.MASTER.getMsg());
                 MeterData master = FrameUtils.analysisLien(message, false);
-                master.setLineSn(determineFrame.getAddress());
-                meterDataService.save(master);
-
-                FrameAnswer frameAnswer = new FrameAnswer("80", determineFrame.getAddress(), "00");
-                log.info("应答帧：" + frameAnswer.toString());
-                connection.println(HexUtils.hexToBytes(frameAnswer.toString()));
+                if (master != null) {
+                    master.setLineSn(determineFrame.getAddress());
+                    meterDataService.save(master);
+                }
+                AnswerFramePrint("80", determineFrame.getAddress(), "00");
 
             } else if (CtrlFrame.ALARM.getVal().equals(ctrl)) {
 
@@ -234,19 +236,10 @@ public class ConnectionThread extends Thread {
                 alarmInfo.setTerminalNum(determineFrame.getAddress());
                 alarmInfoService.save(alarmInfo);
 
-                FrameAnswer frameAnswer = new FrameAnswer("80", determineFrame.getAddress(), "00");
-                log.info("应答帧：" + frameAnswer.toString());
-                connection.println(HexUtils.hexToBytes(frameAnswer.toString()));
-
+//                msgProducer.sendMsg("曾勇2");
+                AnswerFramePrint("80", determineFrame.getAddress(), "00");
             } else {
                 log.warn("控制字节 " + ctrl + " 无效");
-
-                FrameAnswer frameAnswer = new FrameAnswer("C0", determineFrame.getAddress(), "02");
-                log.info("应答帧：" + frameAnswer.toString());
-
-                connection.println(HexUtils.hexToBytes(frameAnswer.toString()));
-
-
 
 //                throw new FrameInvalidCtrlException();
             }
@@ -254,12 +247,16 @@ public class ConnectionThread extends Thread {
 //                    socketServer.getExistSocketMap().put(determineFrame.getAddress(), connection);
 
         } else {
-            FrameAnswer frameAnswer = new FrameAnswer("C0", determineFrame.getAddress(), "02");
-            log.error("检验失败，应答帧：" + frameAnswer.toString());
+            AnswerFramePrint("C0", determineFrame.getAddress(), "02");
             log.info("失败数据帧：" + determineFrame.toString());
-
-            connection.println(HexUtils.hexToBytes(frameAnswer.toString()));
             throw new FrameCheckFailureException("数据帧校验失败");
         }
     }
+
+    private void AnswerFramePrint(String ctrl,String address, String ansFlag){
+        FrameAnswer frameAnswer = new FrameAnswer(ctrl, address, ansFlag);
+        log.info("应答帧：" + frameAnswer.toString());
+        connection.println(HexUtils.hexToBytes(frameAnswer.toString()));
+    }
+
 }

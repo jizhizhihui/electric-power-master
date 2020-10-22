@@ -43,9 +43,9 @@ class ListeningThread extends Thread {
 					writer.println("已超过连接最大数限制，请稍后再试");
 					socket.close();
 				}
-				//设置超时时间为5s（有心跳机制了不需要设置）
-				//socket.setSoTimeout(5 * 1000);
+				//连接登录
 				log.info("socket连接,ip:{}", socket.getInetAddress().toString());
+
 				ConnectionThread connectionThread = new ConnectionThread(socket, socketServer);
 				socketServer.getExistConnectionThreadList().add(connectionThread);
 				//todo:这边最好用线程池

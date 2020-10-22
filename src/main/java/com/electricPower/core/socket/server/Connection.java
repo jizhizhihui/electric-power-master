@@ -1,16 +1,11 @@
 package com.electricPower.core.socket.server;
 
-import io.swagger.models.auth.In;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Date;
-import java.util.List;
 
 import static com.electricPower.core.socket.constants.SocketConstant.RETRY_COUNT;
 

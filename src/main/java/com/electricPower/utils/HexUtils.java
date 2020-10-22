@@ -169,7 +169,7 @@ public class HexUtils {
 //    }
 
     /*
-     * 十六进制转十进制字符
+     * 十六进制转字节数组
      */
     public static byte[] hexToBytes(String frame) {
         if (frame == null || frame.equals(""))

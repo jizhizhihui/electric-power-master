@@ -29,7 +29,7 @@ public class MeterData implements Serializable {
     private long meterDataId;
 
     @ApiModelProperty(value = "电表编号；台变编号")
-    private String lineSn;
+    private String terminalNum;
 
     @ApiModelProperty(value = "采集时间")
     private LocalDateTime acquisitionTime;

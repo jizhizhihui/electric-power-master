@@ -19,6 +19,9 @@ public class BCDUtils {
      */
     public static float stringBCDToFloat(String bcd, int decimal, boolean sign) {
 
+        if (bcd.equals("ff"))
+            return Float.parseFloat(null);
+
         float num = 0;
         if (decimal != 0) {
             num += Float.parseFloat("0." + bcd.substring(bcd.length() - decimal));

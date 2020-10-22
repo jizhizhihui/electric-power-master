@@ -15,6 +15,8 @@ import com.electricPower.project.entity.MeterData;
 //import com.electricPower.project.service.IAlarmInfoService;
 import com.electricPower.project.service.IAlarmInfoService;
 import com.electricPower.project.service.IMeterDataService;
+import com.electricPower.project.service.ITcpFlowService;
+import com.electricPower.project.service.ITerminalService;
 import com.electricPower.project.service.impl.MeterDataServiceImpl;
 import com.electricPower.utils.FrameUtils;
 import com.electricPower.utils.HexUtils;
@@ -46,8 +48,11 @@ import java.util.List;
 @Data
 public class ConnectionThread extends Thread {
 
+    //数据库操作
     private IMeterDataService meterDataService;
     private IAlarmInfoService alarmInfoService;
+    private ITerminalService terminalService;
+    private ITcpFlowService tcpFlowService;
 
 //    private MsgProducer msgProducer;
 
@@ -84,6 +89,9 @@ public class ConnectionThread extends Thread {
     public ConnectionThread(Socket socket, SocketServer socketServer) {
         this.meterDataService = ApplicationContextProvider.getBean(IMeterDataService.class);
         this.alarmInfoService = ApplicationContextProvider.getBean(IAlarmInfoService.class);
+        this.terminalService = ApplicationContextProvider.getBean(ITerminalService.class);
+        this.tcpFlowService = ApplicationContextProvider.getBean(ITcpFlowService.class);
+
 //        this.msgProducer = ApplicationContextProvider.getBean(MsgProducer.class);
         this.socket = socket;
         this.socketServer = socketServer;
@@ -109,6 +117,9 @@ public class ConnectionThread extends Thread {
                 while (socket.getInputStream().read(bytes) > 0) {
                     //接受数据
 //                    log.info("服务端收到消息：" + HexUtils.encodeHexStr(bytes, false).replaceAll("0+$", ""));
+                    int s = HexUtils.encodeHexStr(bytes, false).replaceAll("0+$", "").length()/2;
+                    socketServer.getTcpFlow().transferData(s);
+
                     getFrame(bytes);
                     Arrays.fill(bytes, (byte) 0);
                     log.info("服务端收到有效数据帧：" + subpackage.toString());
@@ -126,6 +137,10 @@ public class ConnectionThread extends Thread {
 
             } catch (Exception e) {
                 log.error("ConnectionThread.run failed. Exception:{}", e.getMessage());
+                socketServer.getTcpFlow().connLogin();
+                socketServer.getTcpFlow().setTime();
+                tcpFlowService.save(socketServer.getTcpFlow());
+                socketServer.getTcpFlow().setByteNum(0);
                 this.stopRunning();
             }
         }
@@ -136,7 +151,7 @@ public class ConnectionThread extends Thread {
         try {
             socket.close();
         } catch (IOException e) {
-            log.error("ConnectionThread.stopRunning failed.exception:{}", e);
+            e.printStackTrace();
         }
     }
 
@@ -194,27 +209,35 @@ public class ConnectionThread extends Thread {
 
         if (determineFrame.checkFrame()) {
 
-//                        if (socketServer.getExistSocketMap().containsKey(determineFrame.getAddress())) {
-//                            Connection existConnection = socketServer.getExistSocketMap().get(determineFrame.getAddress());
-//                            existConnection.getConnectionThread().stopRunning();
-//                        } else {
-//                            //终端校验
-//                        }
+            socketServer.getTcpFlow().setAddress(determineFrame.getAddressNoSpace());
+            socketServer.getTcpFlow().setTime();
+            tcpFlowService.save(socketServer.getTcpFlow());
+            socketServer.getTcpFlow().setByteNum(0);
+
+            //            //终端登录
+//            if (socketServer.getExistSocketMap().containsKey(determineFrame.getAddressNoSpace())) {
+//                Connection existConnection = socketServer.getExistSocketMap().get(determineFrame.getAddressNoSpace());
+//                existConnection.getConnectionThread().stopRunning();
+//            } else {
+//                //终端校验
+//                if (terminalService.getById(determineFrame.getAddressNoSpace()) != null) {
+//                    log.info(String.valueOf(terminalService.getById(determineFrame.getAddressNoSpace())));
+//                    socketServer.getExistSocketMap().put(determineFrame.getAddressNoSpace(), connection);
+//                }
+//            }
 
             String ctrl = determineFrame.getCtrl();
             if (CtrlFrame.HEART.getVal().equals(ctrl)) {
 
                 log.info(CtrlFrame.HEART.getMsg());
-                FrameAnswer frameAnswer = new FrameAnswer("80", determineFrame.getAddress(), "00");
-                log.info("应答帧：" + frameAnswer.toString());
-                connection.println(HexUtils.hexToBytes(frameAnswer.toString()));
+                AnswerFramePrint("80", determineFrame.getAddress(), "00");
 
             } else if (CtrlFrame.LINE.getVal().equals(ctrl)) {
 
                 log.info(CtrlFrame.LINE.getMsg());
                 MeterData line = FrameUtils.analysisLien(message, true);
                 if (line != null) {
-                    line.setLineSn(determineFrame.getAddress());
+                    line.setTerminalNum(determineFrame.getAddressNoSpace());
                     meterDataService.save(line);
                 }
                 AnswerFramePrint("80", determineFrame.getAddress(), "00");
@@ -224,7 +247,7 @@ public class ConnectionThread extends Thread {
                 log.info(CtrlFrame.MASTER.getMsg());
                 MeterData master = FrameUtils.analysisLien(message, false);
                 if (master != null) {
-                    master.setLineSn(determineFrame.getAddress());
+                    master.setTerminalNum(determineFrame.getAddress().replace(" ", ""));
                     meterDataService.save(master);
                 }
                 AnswerFramePrint("80", determineFrame.getAddress(), "00");
@@ -233,7 +256,7 @@ public class ConnectionThread extends Thread {
 
                 log.info(CtrlFrame.ALARM.getMsg());
                 AlarmInfo alarmInfo = FrameUtils.analysisAlarm(message);
-                alarmInfo.setTerminalNum(determineFrame.getAddress());
+                alarmInfo.setTerminalNum(determineFrame.getAddressNoSpace());
                 alarmInfoService.save(alarmInfo);
 
 //                msgProducer.sendMsg("曾勇2");
@@ -243,8 +266,6 @@ public class ConnectionThread extends Thread {
 
 //                throw new FrameInvalidCtrlException();
             }
-            //                    //添加到已校验map中
-//                    socketServer.getExistSocketMap().put(determineFrame.getAddress(), connection);
 
         } else {
             AnswerFramePrint("C0", determineFrame.getAddress(), "02");

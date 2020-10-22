@@ -1,6 +1,7 @@
 package com.electricPower.core.socket.server;
 
 import com.electricPower.core.socket.constants.SocketConstant;
+import com.electricPower.project.entity.TcpFlow;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,6 +21,8 @@ import java.util.concurrent.*;
 @Slf4j
 @Data
 public class SocketServer {
+
+    private TcpFlow tcpFlow;
 
     private ServerSocket serverSocket;
 
@@ -50,6 +53,7 @@ public class SocketServer {
     public SocketServer(int port) {
         try {
             serverSocket = new ServerSocket(port);
+            tcpFlow = new TcpFlow();
         } catch (IOException e) {
             log.error("本地socket服务启动失败.exception:{}", e);
         }
@@ -66,15 +70,14 @@ public class SocketServer {
         scheduleSocketMonitorExecutor.scheduleWithFixedDelay(() -> {
             Date now = new Date();
             existConnectionThreadList.forEach(connectionThread -> {
-                    //心跳验证
-                    Date lastOnTime = connectionThread.getConnection().getLastOnTime();
-                    long heartDuration = now.getTime() - lastOnTime.getTime();
-                    if (heartDuration > SocketConstant.HEART_RATE) {
-                        //心跳超时,关闭当前线程
-                        log.warn("心跳超时");
-                        connectionThread.stopRunning();
-                        existConnectionThreadList.remove(connectionThread);
-//                        existConnectionThreadList
+                //心跳验证
+                Date lastOnTime = connectionThread.getConnection().getLastOnTime();
+                long heartDuration = now.getTime() - lastOnTime.getTime();
+                if (heartDuration > SocketConstant.HEART_RATE) {
+                    //心跳超时,关闭当前线程
+                    log.warn("心跳超时");
+                    connectionThread.stopRunning();
+                    existConnectionThreadList.remove(connectionThread);
                 }
             });
         }, 0, 1, TimeUnit.SECONDS);

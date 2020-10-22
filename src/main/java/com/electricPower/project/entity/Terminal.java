@@ -2,6 +2,8 @@ package com.electricPower.project.entity;
 
 import java.time.LocalDate;
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -22,6 +24,7 @@ public class Terminal implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId(value = "terminal_num")
     @ApiModelProperty(value = "终端编号，每个终端出厂时都由一个唯一资产编号")
     private String terminalNum;
 

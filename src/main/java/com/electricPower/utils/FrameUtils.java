@@ -158,7 +158,6 @@ public class FrameUtils {
 
     public static void main(String[] args) {
 //        log.info(analysisHouseholdAlarm(3,"11 11 11 11 11 12 12 3A 11 11 11 11 11 11 12 3A 11 11 11 11 11 31 12 3A 11"));
-
         analysisAlarmSign("123A");
     }
 }

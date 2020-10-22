@@ -75,7 +75,7 @@ public class CodeGenerator3 {
                 .setRestControllerStyle(true) //RestController注解
                 .setControllerMappingHyphenStyle(true)          //驼峰转连字符
                 .setTablePrefix(tablePrefix)  //表前缀
-                .setInclude("alarm_info"); // 需要生成的表,默认全部
+                .setInclude("tcp_flow"); // 需要生成的表,默认全部
 //                //.setExclude(new String[]{"test"}) // 排除生成的表
 //                .setSuperEntityClass("com.baomidou.demo.base.BsBaseEntity") //自定义实体父类
 //                .setSuperMapperClass("com.baomidou.demo.base.BsBaseMapper")   // 自定义 mapper 父类

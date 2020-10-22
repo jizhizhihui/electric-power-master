@@ -36,6 +36,10 @@ public class DetermineFrame extends BasicFrame {
         }
     }
 
+    public String getAddressNoSpace(){
+        return getAddress().replace(" ", "");
+    }
+
     /**
      * 校验数据帧
      */

@@ -13,6 +13,7 @@ import com.electricPower.core.socket.client.SocketClient;
 import com.electricPower.project.entity.AlarmInfo;
 import com.electricPower.project.entity.MeterData;
 //import com.electricPower.project.service.IAlarmInfoService;
+import com.electricPower.project.entity.Terminal;
 import com.electricPower.project.service.IAlarmInfoService;
 import com.electricPower.project.service.IMeterDataService;
 import com.electricPower.project.service.ITcpFlowService;
@@ -118,7 +119,7 @@ public class ConnectionThread extends Thread {
                     //接受数据
 //                    log.info("服务端收到消息：" + HexUtils.encodeHexStr(bytes, false).replaceAll("0+$", ""));
                     int s = HexUtils.encodeHexStr(bytes, false).replaceAll("0+$", "").length()/2;
-                    socketServer.getTcpFlow().transferData(s);
+                    connection.getTcpFlow().transferData(s);
 
                     getFrame(bytes);
                     Arrays.fill(bytes, (byte) 0);
@@ -137,10 +138,14 @@ public class ConnectionThread extends Thread {
 
             } catch (Exception e) {
                 log.error("ConnectionThread.run failed. Exception:{}", e.getMessage());
-                socketServer.getTcpFlow().connLogin();
-                socketServer.getTcpFlow().setTime();
-                tcpFlowService.save(socketServer.getTcpFlow());
-                socketServer.getTcpFlow().setByteNum(0);
+
+                connection.getTerminal().setIsAlive(false);
+                terminalService.updateById(connection.getTerminal());
+
+                connection.getTcpFlow().connLogin();
+                connection.getTcpFlow().setTime();
+                tcpFlowService.save(connection.getTcpFlow());
+                connection.getTcpFlow().setByteNum(0);
                 this.stopRunning();
             }
         }
@@ -209,10 +214,14 @@ public class ConnectionThread extends Thread {
 
         if (determineFrame.checkFrame()) {
 
-            socketServer.getTcpFlow().setAddress(determineFrame.getAddressNoSpace());
-            socketServer.getTcpFlow().setTime();
-            tcpFlowService.save(socketServer.getTcpFlow());
-            socketServer.getTcpFlow().setByteNum(0);
+            connection.getTerminal().setTerminalNum(determineFrame.getAddressNoSpace());
+            connection.getTerminal().setIsAlive(true);
+            terminalService.updateById(connection.getTerminal());
+
+            connection.getTcpFlow().setAddress(determineFrame.getAddressNoSpace());
+            connection.getTcpFlow().setTime();
+            tcpFlowService.save(connection.getTcpFlow());
+            connection.getTcpFlow().setByteNum(0);
 
             //            //终端登录
 //            if (socketServer.getExistSocketMap().containsKey(determineFrame.getAddressNoSpace())) {

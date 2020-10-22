@@ -1,5 +1,7 @@
 package com.electricPower.core.socket.server;
 
+import com.electricPower.project.entity.TcpFlow;
+import com.electricPower.project.entity.Terminal;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
@@ -17,6 +19,8 @@ import static com.electricPower.core.socket.constants.SocketConstant.RETRY_COUNT
 @Data
 public class Connection {
 
+	private TcpFlow tcpFlow;
+
 	/**
 	 * 当前的socket连接实例
 	 */
@@ -33,9 +37,9 @@ public class Connection {
 //	private boolean isLogin;
 
 	/**
-	 * 当前终端地址
+	 * 当前终端设备
 	 */
-	private byte[] address;
+	private Terminal terminal;
 
 	/**
 	 * 创建时间
@@ -50,6 +54,8 @@ public class Connection {
 	public Connection(Socket socket, ConnectionThread connectionThread) {
 		this.socket = socket;
 		this.connectionThread = connectionThread;
+		this.tcpFlow = new TcpFlow();
+		this.terminal = new Terminal();
 	}
 
 	public void println(byte[] message) {
@@ -72,7 +78,7 @@ public class Connection {
 			try {
 				Thread.sleep(2 * 1000);
 			} catch (InterruptedException e1) {
-				log.error("Connection.println.IOException interrupt,terminal address:{}", address);
+				log.error("Connection.println.IOException interrupt,terminal address:{}", terminal.getTerminalNum());
 			}
 		} while (count < 3);
 	}

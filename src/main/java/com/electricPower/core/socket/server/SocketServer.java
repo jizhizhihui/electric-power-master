@@ -22,8 +22,6 @@ import java.util.concurrent.*;
 @Data
 public class SocketServer {
 
-    private TcpFlow tcpFlow;
-
     private ServerSocket serverSocket;
 
     /**
@@ -53,7 +51,6 @@ public class SocketServer {
     public SocketServer(int port) {
         try {
             serverSocket = new ServerSocket(port);
-            tcpFlow = new TcpFlow();
         } catch (IOException e) {
             log.error("本地socket服务启动失败.exception:{}", e);
         }

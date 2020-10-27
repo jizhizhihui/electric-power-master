@@ -35,36 +35,10 @@ public class PowerSupplyController {
         return CommonResult.success(PowerSupplyService.getSupplyAndLine(powerSupplyName));
     }
 
-    @ApiOperation("查询供电所所有数据")
-    @GetMapping("/list")
-    public CommonResult getList() {
-        return CommonResult.success(PowerSupplyService.list());
-    }
-
-    @ApiOperation("根据Id查询供电所数据")
-    @GetMapping("/getPowerSupplyId")
-    public CommonResult get(Integer powerSupplyId) {
-        return CommonResult.success(PowerSupplyService.getById(powerSupplyId));
-    }
-
-    @ApiOperation("添加供电所数据")
-    @PostMapping("/add")
-    public CommonResult add(@RequestBody PowerSupply powerSupply) {
-        return CommonResult.success(PowerSupplyService.save(powerSupply));
-    }
-
-    @ApiOperation("更新供电所数据")
-    @PutMapping("/update")
-    public CommonResult update(@RequestBody PowerSupply powerSupply) {
-
-        return CommonResult.success(PowerSupplyService.updateById(powerSupply));
-    }
-
-    @ApiOperation("通过id删除供电所数据")
-    @DeleteMapping("/delete")
-    public CommonResult delete(String id) {
-
-        return CommonResult.success(PowerSupplyService.removeById(id));
+    @ApiOperation("查询某个一个供电所下所有的供电线路以及管理单元")
+    @GetMapping("/getSupplyLine")
+    public CommonResult getSupplyLine(int powerSupplyId){
+        return CommonResult.success(PowerSupplyService.get(powerSupplyId));
     }
 
 
@@ -72,3 +46,34 @@ public class PowerSupplyController {
 
 
 }
+//    @ApiOperation("查询供电所所有数据")
+//    @GetMapping("/list")
+//    public CommonResult getList() {
+//        return CommonResult.success(PowerSupplyService.list());
+//    }
+//
+//    @ApiOperation("根据Id查询供电所数据")
+//    @GetMapping("/getPowerSupplyId")
+//    public CommonResult get(Integer powerSupplyId) {
+//        return CommonResult.success(PowerSupplyService.getById(powerSupplyId));
+//    }
+//
+//    @ApiOperation("添加供电所数据")
+//    @PostMapping("/add")
+//    public CommonResult add(@RequestBody PowerSupply powerSupply) {
+//        return CommonResult.success(PowerSupplyService.save(powerSupply));
+//    }
+//
+//    @ApiOperation("更新供电所数据")
+//    @PutMapping("/update")
+//    public CommonResult update(@RequestBody PowerSupply powerSupply) {
+//
+//        return CommonResult.success(PowerSupplyService.updateById(powerSupply));
+//    }
+//
+//    @ApiOperation("通过id删除供电所数据")
+//    @DeleteMapping("/delete")
+//    public CommonResult delete(String id) {
+//
+//        return CommonResult.success(PowerSupplyService.removeById(id));
+//    }

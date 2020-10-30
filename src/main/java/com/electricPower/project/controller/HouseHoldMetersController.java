@@ -29,39 +29,39 @@ public class HouseHoldMetersController {
     @Autowired
     private IHouseHoldMetersService houseHoldMetersService;
 
-    @ApiOperation("查询所有的管理单元")
-    @GetMapping("/getList")
-    public CommonResult getList() {
-        return CommonResult.success(houseHoldMetersService.list());
-    }
-
-    @ApiOperation("根据Id查询所有的管理单元")
-    @GetMapping("/getHouseholdSn")
-    public CommonResult get(String householdSn) {
-        return CommonResult.success(houseHoldMetersService.getById(householdSn));
-    }
-
-    @ApiOperation("添加查管理单元")
-    @PostMapping("/add")
-    public CommonResult add(@RequestBody HouseHoldMeters houseHoldMeters) {
-        return CommonResult.success(houseHoldMetersService.save(houseHoldMeters));
-    }
-
-    @ApiOperation("更新查管理单元")
-    @PutMapping("/update")
-    public CommonResult update(@RequestBody HouseHoldMeters houseHoldMeters) {
-
-        return CommonResult.success(houseHoldMetersService.updateById(houseHoldMeters));
-    }
-
-    @ApiOperation("通过id删除查管理单元")
-    @DeleteMapping("/delete")
-    public CommonResult delete(String householdSn) {
-
-        return CommonResult.success(houseHoldMetersService.removeById(householdSn));
-    }
 
 
 
 
 }
+//    @ApiOperation("查询所有的管理单元")
+//    @GetMapping("/getList")
+//    public CommonResult getList() {
+//        return CommonResult.success(houseHoldMetersService.list());
+//    }
+//
+//    @ApiOperation("根据Id查询所有的管理单元")
+//    @GetMapping("/getHouseholdSn")
+//    public CommonResult get(String householdSn) {
+//        return CommonResult.success(houseHoldMetersService.getById(householdSn));
+//    }
+//
+//    @ApiOperation("添加查管理单元")
+//    @PostMapping("/add")
+//    public CommonResult add(@RequestBody HouseHoldMeters houseHoldMeters) {
+//        return CommonResult.success(houseHoldMetersService.save(houseHoldMeters));
+//    }
+//
+//    @ApiOperation("更新查管理单元")
+//    @PutMapping("/update")
+//    public CommonResult update(@RequestBody HouseHoldMeters houseHoldMeters) {
+//
+//        return CommonResult.success(houseHoldMetersService.updateById(houseHoldMeters));
+//    }
+//
+//    @ApiOperation("通过id删除查管理单元")
+//    @DeleteMapping("/delete")
+//    public CommonResult delete(String householdSn) {
+//
+//        return CommonResult.success(houseHoldMetersService.removeById(householdSn));
+//    }

@@ -13,7 +13,6 @@ import lombok.EqualsAndHashCode;
  * <p>
  * 
  * </p>
- *
  * @author 
  * @since 2020-10-05
  */
@@ -66,10 +65,7 @@ public class Terminal implements Serializable {
 
     @ApiModelProperty(value = "投运日期")
     private LocalDate putOperationDate;
-//
-//    @ApiModelProperty(value = "供电线路说明（10kv铁光线）")
-//    private String line;
-//
-//    @ApiModelProperty(value = "台区名称，“如长马沟村1#公变")
-//    private String subStationAreas;
+
+    @ApiModelProperty(value = "安装日期")
+    private LocalDate addDate;
 }

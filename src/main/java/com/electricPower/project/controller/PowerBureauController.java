@@ -36,46 +36,38 @@ public class PowerBureauController {
         return CommonResult.success(powerBureauService.getBureau());
     }
 
-    @ApiOperation("查询供电局所有数据")
-    @GetMapping("/list")
-    public CommonResult getList() {
-        return CommonResult.success(powerBureauService.list());
-    }
-
-    @ApiOperation("更具Id查询供电局数据")
-    @GetMapping("/getPowerBureauId")
-    public CommonResult get(Integer powerBureauId) {
-        return CommonResult.success(powerBureauService.getById(powerBureauId));
-    }
-
-    @ApiOperation("添加供电局数据")
-    @PostMapping("/add")
-    public CommonResult add( @RequestBody PowerBureau powerBureau) {
-        return CommonResult.success(powerBureauService.save(powerBureau));
-    }
-
-    @ApiOperation("更新供电局数据")
-    @PutMapping("/update")
-    public CommonResult update(  @RequestBody PowerBureau powerBureau) {
-
-        return CommonResult.success(powerBureauService.updateById(powerBureau));
-    }
-
-    @ApiOperation("通过id删除供电局数据")
-    @DeleteMapping("/delete")
-    public CommonResult delete(String id) {
-
-        return CommonResult.success(powerBureauService.removeById(id));
-    }
-
-
-
-
-
-
-
-
 
 
 
 }
+//@ApiOperation("查询供电局所有数据")
+//    @GetMapping("/list")
+//    public CommonResult getList() {
+//        return CommonResult.success(powerBureauService.list());
+//    }
+//
+//    @ApiOperation("更具Id查询供电局数据")
+//    @GetMapping("/getPowerBureauId")
+//    public CommonResult get(Integer powerBureauId) {
+//        return CommonResult.success(powerBureauService.getById(powerBureauId));
+//    }
+//
+//    @ApiOperation("添加供电局数据")
+//    @PostMapping("/add")
+//    public CommonResult add( @RequestBody PowerBureau powerBureau) {
+//        return CommonResult.success(powerBureauService.save(powerBureau));
+//    }
+//
+//    @ApiOperation("更新供电局数据")
+//    @PutMapping("/update")
+//    public CommonResult update(  @RequestBody PowerBureau powerBureau) {
+//
+//        return CommonResult.success(powerBureauService.updateById(powerBureau));
+//    }
+//
+//    @ApiOperation("通过id删除供电局数据")
+//    @DeleteMapping("/delete")
+//    public CommonResult delete(String id) {
+//
+//        return CommonResult.success(powerBureauService.removeById(id));
+//    }

@@ -4,6 +4,9 @@ import lombok.extern.log4j.Log4j2;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Date;
 
 @Log4j2
@@ -19,8 +22,8 @@ public class BCDUtils {
      */
     public static float stringBCDToFloat(String bcd, int decimal, boolean sign) {
 
-        if (bcd.equals("ff"))
-            return Float.parseFloat(null);
+        if (bcd.substring(0,2).equals("ff") || bcd.substring(0,2).equals("FF"))
+            return Float.NaN;
 
         float num = 0;
         if (decimal != 0) {
@@ -47,23 +50,25 @@ public class BCDUtils {
      * @param times BCD字符串
      * @return data
      */
-    public static Date stringBCDToDate(String... times) throws ParseException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy/mm/dd-hh:mm:ss");//注意月份是MM
-        Date date = simpleDateFormat.parse(
-                times[0] + "/" + times[1] + "/" + times[2] + "-"
-                        + times[3] + ":" + times[4] + ":" + times[5]);
-        return date;
+    public static LocalDateTime stringBCDToLocalDataTime(String... times) throws ParseException {
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime localDateTime = LocalDateTime.now();
+        String time =  df.format(localDateTime).substring(0,2) + times[0] + "-" + times[1] + "-" + times[2] + " " + times[3] + ":" + times[4] + ":" + times[5];
+        return  LocalDateTime.parse(time, df);
     }
 
 
     public static void main(String[] args) {
         //A相电压码 ：22 12；电压 221.2
-//        log.info("num: " + stringBCDToFloat("80007890", 3, true));
+//        if (stringBCDToFloat("848512", 3, true) != Float.NaN) {
+            log.info("num: " + stringBCDToFloat("848512", 3, true));
+//        }
 
-        try {
-            stringBCDToDate("20", "08", "06", "11", "15", "00");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        //字符串转时间戳
+//        try {
+//            log.error(stringBCDToLocalDataTime("20", "08", "06", "11", "15", "00"));
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
     }
 }

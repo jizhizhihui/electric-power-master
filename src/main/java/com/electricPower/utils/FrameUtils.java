@@ -9,6 +9,7 @@ import lombok.extern.log4j.Log4j2;
 
 import java.text.ParseException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 @Log4j2
@@ -21,8 +22,8 @@ public class FrameUtils {
         //时间
         meterData.setSaveTime(LocalDateTime.now());
         try {
-            int  l = strings.length;
-            meterData.setAcquisitionTime(DateTimeUtils.dateToLocalDateTime(BCDUtils.stringBCDToDate(strings[l-8], strings[l-7], strings[l-6], strings[l-5], strings[l-4], strings[l-3])));
+            int l = strings.length;
+            meterData.setAcquisitionTime(BCDUtils.stringBCDToLocalDataTime(strings[l - 8], strings[l - 7], strings[l - 6], strings[l - 5], strings[l - 4], strings[l - 3]));
             log.info("时间戳打印：" + meterData.getAcquisitionTime().toString());
             if (meterData.getAcquisitionTime().toString().equals("0000-00-00T00:00:00"))
                 return null;
@@ -71,26 +72,26 @@ public class FrameUtils {
             //温度
             meterData.setTemperature((int) BCDUtils.stringBCDToFloat(strings[count + 7] + strings[count + 8], 0, true));
             //湿度
-            if (strings[count +9].equals("FF") && strings[count +10].equals("FF"))
+            if (strings[count + 9].equals("FF") && strings[count + 10].equals("FF"))
                 log.info("该字段无效");
             else
-                meterData.setHumidity((int) BCDUtils.stringBCDToFloat(strings[count +9] + strings[count +10], 0, true));
+                meterData.setHumidity((int) BCDUtils.stringBCDToFloat(strings[count + 9] + strings[count + 10], 0, true));
             count += 4;
         }
 
         //运行状态字
-        if (!lien){
+        if (!lien) {
             count += 6;
-            meterData.setPhaseFaultA(strings[count+1]);
-            meterData.setPhaseFaultB(strings[count+2]);
-            meterData.setPhaseFaultC(strings[count+3]);
-            meterData.setCombinedPhaseFault(strings[count+4]);
+            meterData.setPhaseFaultA(strings[count + 1]);
+            meterData.setPhaseFaultB(strings[count + 2]);
+            meterData.setPhaseFaultC(strings[count + 3]);
+            meterData.setCombinedPhaseFault(strings[count + 4]);
         }
 
         return meterData;
     }
 
-    public static AlarmInfo analysisAlarm(String message){
+    public static AlarmInfo analysisAlarm(String message) {
 
         AlarmInfo alarmInfo = new AlarmInfo();
         String[] strings = message.split(" ");
@@ -98,26 +99,26 @@ public class FrameUtils {
         alarmInfo.setAlarmSign(strings[9] + " " + strings[10]);
         alarmInfo.setAlarmCount(Integer.parseInt(strings[11]));
         if (alarmInfo.getAlarmCount() > 0)
-            alarmInfo.setAlarmInfo(analysisHouseholdAlarm(alarmInfo.getAlarmCount(),StringUtils.subString(strings,12,alarmInfo.getAlarmCount() * 8)));
+            alarmInfo.setAlarmInfo(analysisHouseholdAlarm(alarmInfo.getAlarmCount(), StringUtils.subString(strings, 12, alarmInfo.getAlarmCount() * 8)));
         alarmInfo.setCreateTime(LocalDateTime.now());
 
         return alarmInfo;
     }
 
-    public static void analysisAlarmSign(String sign){
+    public static void analysisAlarmSign(String sign) {
         String[] alarmSign = {
-                "保留","线缆温度超限","剩余电流超限","零线电流异常","开表盖开端钮盖","功率因素超下限","电流逆相序","电压逆相序",
-                "断流","断相","过载","过流","失流","过压","欠压","失压"
+                "保留", "线缆温度超限", "剩余电流超限", "零线电流异常", "开表盖开端钮盖", "功率因素超下限", "电流逆相序", "电压逆相序",
+                "断流", "断相", "过载", "过流", "失流", "过压", "欠压", "失压"
         };
 
-        String[] strings = {sign.substring(0,2),sign.substring(2)};
+        String[] strings = {sign.substring(0, 2), sign.substring(2)};
 
-        int[] n={128,64,32,16,8,4,2,1};
-        for(int i = 0,count = 0;i < 2; i++,count+=8) {
-            int num = Integer.parseInt(strings[i],16);
+        int[] n = {128, 64, 32, 16, 8, 4, 2, 1};
+        for (int i = 0, count = 0; i < 2; i++, count += 8) {
+            int num = Integer.parseInt(strings[i], 16);
             for (int j = 0; j < n.length; j++) {
-                if ((num&n[j]) != 0) {
-                    log.info(alarmSign[count+j]);
+                if ((num & n[j]) != 0) {
+                    log.info(alarmSign[count + j]);
                 }
             }
         }
@@ -136,20 +137,20 @@ public class FrameUtils {
         return c.substring(c.length() - 2);
     }
 
-    public static String creatFrame(String frame){
+    public static String creatFrame(String frame) {
         String[] strings = frame.split(" ");
         StringBuilder nowFrame = new StringBuilder();
-        for (String s: strings) {
-            nowFrame.append((byte)Integer.parseInt(s, 16));
+        for (String s : strings) {
+            nowFrame.append((byte) Integer.parseInt(s, 16));
         }
         return nowFrame.toString();
     }
 
-    public static JSONObject analysisHouseholdAlarm(int num, String message){
+    public static JSONObject analysisHouseholdAlarm(int num, String message) {
         JSONObject jsonObject = new JSONObject();
 
         String[] msg = message.split(" ");
-        for (int i = 0,count = 0; i < num && count+8 < msg.length; i++,count+=8) {
+        for (int i = 0, count = 0; i < num && count + 8 < msg.length; i++, count += 8) {
             String hma = StringUtils.subString(msg, count, count + 6);
             jsonObject.put(StringUtils.subString(msg, count, count + 5), msg[count + 7] + msg[count + 8]);
         }
@@ -158,6 +159,17 @@ public class FrameUtils {
 
     public static void main(String[] args) {
 //        log.info(analysisHouseholdAlarm(3,"11 11 11 11 11 12 12 3A 11 11 11 11 11 11 12 3A 11 11 11 11 11 31 12 3A 11"));
-        analysisAlarmSign("123A");
+//        analysisAlarmSign("123A");
+
+//        log.error(creatCheck("43 55 01 11 11 11 11 11 11 FF FF 22 34 22 56 00 00 12 34 00 00 56 78 00 01 90 12 00 00 01 23 00 00 00 45 80 00 78 90 00 01 23 45 80 00 56 78 00 23 45 67 00 00 78 90 80 01 23 45 00 00 56 78 80 23 45 67 10 00 09 98 85 00 80 25 00 65 20 08 06 11 15 00 D2 16"));
+
+//        try {
+//            log.error(BCDUtils.stringBCDToLocalDataTime("20","08","06","11","15","00"));
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//            log.error(LocalDateTime.parse(BCDUtils.stringBCDToDate("20","08","06","11","15","00",df)));
+
+
     }
 }

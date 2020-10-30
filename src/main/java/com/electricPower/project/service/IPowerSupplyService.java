@@ -3,6 +3,7 @@ package com.electricPower.project.service;
 import com.electricPower.project.entity.PowerSupply;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.electricPower.project.entity.vo.PsPl;
+import com.electricPower.project.entity.vo.PsPlHs;
 
 /**
  * <p>
@@ -15,4 +16,6 @@ import com.electricPower.project.entity.vo.PsPl;
 public interface IPowerSupplyService extends IService<PowerSupply> {
 
    PsPl getSupplyAndLine(String powerSupplyName);
+
+    PsPlHs get(int powerSupplyId);
 }

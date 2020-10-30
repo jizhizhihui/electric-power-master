@@ -28,37 +28,7 @@ public class TerminalController {
     @Autowired
     private ITerminalService terminalService;
 
-    @ApiOperation("查询所有的巡检机器人")
-    @GetMapping("/getALLType")
-    public CommonResult getList() {
-        return CommonResult.success(terminalService.list());
-    }
 
-    @ApiOperation("根据Id查询巡检机器人")
-    @GetMapping("/getPowerBureauId")
-    public CommonResult get(String terminalNum) {
-        return CommonResult.success(terminalService.getById(terminalNum));
-    }
-
-    @ApiOperation("添加巡检机器人")
-    @PostMapping("/add")
-    public CommonResult add(@RequestBody Terminal terminal) {
-        return CommonResult.success(terminalService.save(terminal));
-    }
-
-    @ApiOperation("更新巡检机器人")
-    @PutMapping("/update")
-    public CommonResult update(  @RequestBody Terminal terminal) {
-
-        return CommonResult.success(terminalService.updateById(terminal));
-    }
-
-    @ApiOperation("通过id删除巡检机器人")
-    @DeleteMapping("/delete")
-    public CommonResult delete(String terminalNum) {
-
-        return CommonResult.success(terminalService.removeById(terminalNum));
-    }
 
 
 
@@ -71,3 +41,35 @@ public class TerminalController {
 
 
 }
+
+//    @ApiOperation("查询所有的巡检机器人")
+//    @GetMapping("/getALLType")
+//    public CommonResult getList() {
+//        return CommonResult.success(terminalService.list());
+//    }
+//
+//    @ApiOperation("根据Id查询巡检机器人")
+//    @GetMapping("/getPowerBureauId")
+//    public CommonResult get(String terminalNum) {
+//        return CommonResult.success(terminalService.getById(terminalNum));
+//    }
+//
+//    @ApiOperation("添加巡检机器人")
+//    @PostMapping("/add")
+//    public CommonResult add(@RequestBody Terminal terminal) {
+//        return CommonResult.success(terminalService.save(terminal));
+//    }
+//
+//    @ApiOperation("更新巡检机器人")
+//    @PutMapping("/update")
+//    public CommonResult update(  @RequestBody Terminal terminal) {
+//
+//        return CommonResult.success(terminalService.updateById(terminal));
+//    }
+//
+//    @ApiOperation("通过id删除巡检机器人")
+//    @DeleteMapping("/delete")
+//    public CommonResult delete(String terminalNum) {
+//
+//        return CommonResult.success(terminalService.removeById(terminalNum));
+//    }

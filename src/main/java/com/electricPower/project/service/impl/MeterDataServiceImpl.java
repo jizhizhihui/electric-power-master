@@ -29,6 +29,30 @@ import java.util.Map;
 public class MeterDataServiceImpl extends ServiceImpl<MeterDataMapper, MeterData> implements IMeterDataService {
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public List getVoltage(String lineSn ) {
             QueryWrapper<MeterData> queryWrapper = new QueryWrapper<>();    // select用于筛选需要的字段
             queryWrapper.in("line_sn", Collections.singletonList(lineSn)).select("line_sn","voltage_a","voltage_b","voltage_c","save_time");
@@ -51,5 +75,7 @@ public class MeterDataServiceImpl extends ServiceImpl<MeterDataMapper, MeterData
         public Object getPaging(Integer current, Integer size) {
             return null;
         }
+
+
 
 }

@@ -19,14 +19,13 @@ public class SocketClient {
 	public SocketClient(InetAddress ip, int port) {
 		try {
 			socket = new Socket(ip, port);
-			socket.setKeepAlive(true);	//测试是否启用了
+			socket.setKeepAlive(true);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			log.error(e.getMessage());
 		}
 	}
 
-	//暂时没有用到
 	public void println(String message) {
 		PrintWriter writer;
 		try {

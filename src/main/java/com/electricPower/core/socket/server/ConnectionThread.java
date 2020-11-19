@@ -118,7 +118,7 @@ public class ConnectionThread extends Thread {
                 while (socket.getInputStream().read(bytes) > 0) {
                     //接受数据
 //                    log.info("服务端收到消息：" + HexUtils.encodeHexStr(bytes, false).replaceAll("0+$", ""));
-                    int s = HexUtils.encodeHexStr(bytes, false).replaceAll("0+$", "").length()/2;
+                    int s = HexUtils.encodeHexStr(bytes, false).replaceAll("0+$", "").length() / 2;
                     connection.getTcpFlow().transferData(s);
 
                     getFrame(bytes);
@@ -138,14 +138,8 @@ public class ConnectionThread extends Thread {
 
             } catch (Exception e) {
                 log.error("ConnectionThread.run failed. Exception:{}", e.getMessage());
-
-                connection.getTerminal().setIsAlive(false);
-                terminalService.updateById(connection.getTerminal());
-
                 connection.getTcpFlow().connLogin();
                 connection.getTcpFlow().setTime();
-                tcpFlowService.save(connection.getTcpFlow());
-                connection.getTcpFlow().setByteNum(0);
                 this.stopRunning();
             }
         }
@@ -154,11 +148,28 @@ public class ConnectionThread extends Thread {
     public void stopRunning() {
         log.info("停止socket连接,ip:{}", this.socket.getInetAddress().toString());
         try {
+            terminalClose();
+            tcpClose();
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    private void tcpClose() {
+        if (!connection.getTcpFlow().getAddress().equals("") && connection.getTcpFlow().getByteNum()!=0) {
+            tcpFlowService.save(connection.getTcpFlow());
+            connection.getTcpFlow().setByteNum(0);
+        }
+    }
+
+    private void terminalClose() {
+        if (!connection.getTerminal().getTerminalNum().equals("")) {
+            connection.getTerminal().setIsAlive(false);
+            terminalService.updateById(connection.getTerminal());
+        }
+    }
+
 
     /**
      * 获取数据帧
@@ -283,8 +294,9 @@ public class ConnectionThread extends Thread {
         }
     }
 
-    private void AnswerFramePrint(String ctrl,String address, String ansFlag){
+    private void AnswerFramePrint(String ctrl, String address, String ansFlag) {
         FrameAnswer frameAnswer = new FrameAnswer(ctrl, address, ansFlag);
+        frameAnswer.setAddress(FrameUtils.reverseAddress(frameAnswer.toString()));
         log.info("应答帧：" + frameAnswer.toString());
         connection.println(HexUtils.hexToBytes(frameAnswer.toString()));
     }

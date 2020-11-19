@@ -1,6 +1,7 @@
 package com.electricPower.core.Dataframe;
 
 import com.electricPower.common.exception.frame.FrameCheckFailureException;
+import com.electricPower.utils.FrameUtils;
 import com.electricPower.utils.StringUtils;
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
@@ -27,7 +28,7 @@ public class DetermineFrame extends BasicFrame {
             setStart(frame[0]);
             setLength(frame[1]);
             setCtrl(frame[2]);
-            setAddress(StringUtils.subString(frame, 3, 8));
+            setAddress(FrameUtils.reverseAddress(frame));
             setCheck(frame[frame.length - 2]);
             setEnd(frame[frame.length - 1]);
         } else {
@@ -35,6 +36,7 @@ public class DetermineFrame extends BasicFrame {
             throw new FrameCheckFailureException("数据帧长度异常");
         }
     }
+
 
     public String getAddressNoSpace(){
         return getAddress().replace(" ", "");
@@ -64,9 +66,9 @@ public class DetermineFrame extends BasicFrame {
 //                        "10 00 09 98 85 00 " +  //功率因素，小数3，可负，
 //                        "80 25 00 65 20 08 06 11 15 00 " +  //温湿度 + 时间戳
 //                        "D1 16";//后校验
-
-        DetermineFrame determineFrame = new DetermineFrame();
-        determineFrame.setDetermineFrame(s.split(" "));
-        log.info(determineFrame.getAddress());
+//
+//        DetermineFrame determineFrame = new DetermineFrame();
+//        determineFrame.setDetermineFrame(s.split(" "));
+//        log.info(determineFrame.getAddress());
     }
 }

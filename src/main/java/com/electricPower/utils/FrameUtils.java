@@ -15,6 +15,12 @@ import java.util.Arrays;
 @Log4j2
 public class FrameUtils {
 
+    /**
+     * 解析 本地数据帧 或 总表数据帧
+     * @param message 数据帧
+     * @param lien true： 本地数据； false：总表数据
+     * @return MeterData
+     */
     public static MeterData analysisLien(String message, boolean lien) {
         MeterData meterData = new MeterData();
         String[] strings = message.split(" ");
@@ -91,6 +97,11 @@ public class FrameUtils {
         return meterData;
     }
 
+    /**
+     * 解析 报警数据帧
+     * @param message 数据帧
+     * @return AlarmInfo
+     */
     public static AlarmInfo analysisAlarm(String message) {
 
         AlarmInfo alarmInfo = new AlarmInfo();
@@ -125,6 +136,11 @@ public class FrameUtils {
 //        return "";
     }
 
+    /**
+     * 创建校验字节
+     * @param message 数据帧
+     * @return String
+     */
     public static String creatCheck(String message) {
         String[] s = message.split(" ");//split() 方法根据匹配给定的正则表达式来拆分字符串。
         //产生校验帧
@@ -155,6 +171,21 @@ public class FrameUtils {
             jsonObject.put(StringUtils.subString(msg, count, count + 5), msg[count + 7] + msg[count + 8]);
         }
         return jsonObject;
+    }
+
+    public static String reverseAddress(String frame){
+        return reverseAddress(frame.split(" "));
+    }
+
+    /**
+     * 终端地址逆序
+     * @param frame 数据帧
+     * @return String 终端地址
+     */
+    public static String reverseAddress(String[] frame){
+        if (frame.length > 8)
+            return frame[8] + " " + frame[7] +  " " + frame[6] +  " " + frame[5] +  " " + frame[4] + " " +  frame[3];
+        return null;
     }
 
     public static void main(String[] args) {

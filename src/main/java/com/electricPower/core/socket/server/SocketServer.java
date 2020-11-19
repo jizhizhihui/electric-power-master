@@ -60,24 +60,31 @@ public class SocketServer {
      * 开一个线程来开启本地socket服务，开启一个monitor线程
      */
     public void start() {
-//        FrameUtils.svarTest(meterDataService);
         listeningThread = new ListeningThread(this);
         listeningThread.start();
         //每隔1s扫一次ThreadList
         scheduleSocketMonitorExecutor.scheduleWithFixedDelay(() -> {
             Date now = new Date();
-            existConnectionThreadList.forEach(connectionThread -> {
-                //心跳验证
-                Date lastOnTime = connectionThread.getConnection().getLastOnTime();
-                long heartDuration = now.getTime() - lastOnTime.getTime();
-                if (heartDuration > SocketConstant.HEART_RATE) {
-                    //心跳超时,关闭当前线程
-                    log.warn("心跳超时");
-                    connectionThread.stopRunning();
-                    existConnectionThreadList.remove(connectionThread);
-                }
-            });
+            existConnectionThreadList.removeIf(conn -> !heartDuration(now,conn));
         }, 0, 1, TimeUnit.SECONDS);
+    }
+
+    /**
+     * 判断心跳
+     * @param now
+     * @param connectionThread
+     * @return
+     */
+    private boolean heartDuration(Date now , ConnectionThread connectionThread){
+        Date lastOnTime = connectionThread.getConnection().getLastOnTime();
+        long heartDuration = now.getTime() - lastOnTime.getTime();
+        if (heartDuration > SocketConstant.HEART_RATE) {
+            //心跳超时,关闭当前线程
+            log.warn("心跳超时");
+            connectionThread.stopRunning();
+            return false;
+        }
+        return true;
     }
 
     /**

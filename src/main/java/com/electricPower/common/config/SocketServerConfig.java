@@ -12,7 +12,7 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource("classpath:application-task.yml")
 public class SocketServerConfig {
 
-	@Value("${task.socket.port}")
+	@Value("${task.socket.server.port}")
 	private int port;
 
 	@Bean

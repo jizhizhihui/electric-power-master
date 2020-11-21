@@ -46,8 +46,16 @@ public class StringUtils {
     }
 
 
+    public static String addressSplit(String address){
+        char[] add = address.toCharArray();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < add.length; i+=2) {
+            stringBuilder.append(add[i]).append(add[i+1]).append(" ");
+        }
+        return stringBuilder.toString().trim();
+    }
+
     public static void main(String[] args) {
-        byte b = 127;
-        log.info(Integer.toHexString(b));
+        log.info(addressSplit("111111111111"));
     }
 }

@@ -60,8 +60,8 @@ public class Terminal implements Serializable {
     @ApiModelProperty(value = "终端是否在线( 1,在线；0，掉线)")
     private Boolean isAlive;
 
-    @ApiModelProperty(value = "供电线路唯一编号；线路id")
-    private String lineSn;
+    @ApiModelProperty(value = "台变id")
+    private int transformer_id;
 
     @ApiModelProperty(value = "投运日期")
     private LocalDate putOperationDate;

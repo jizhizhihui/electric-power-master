@@ -2,6 +2,7 @@ package com.electricPower.core.Dataframe.downlink;
 
 import com.electricPower.core.Dataframe.BasicFrame;
 import com.electricPower.utils.FrameUtils;
+import com.electricPower.utils.StringUtils;
 
 /**
  * 召测帧
@@ -14,7 +15,7 @@ public class FrameCmd extends BasicFrame {
 
         setLength("0B");
         setCtrl(ctrl);
-        setAddress(terminalAddress);
+        setAddress(StringUtils.addressSplit(terminalAddress));
         setCheck(FrameUtils.creatCheck(toString()));
     }
 

@@ -79,40 +79,29 @@ public class PowerLineServiceImpl extends ServiceImpl<PowerLineMapper, PowerLine
 
     public PlT getType2(PowerLine powerLine,Terminal terminal){
         PlT plT = new PlT();
-        plT.setPowerLines((List<java.util.Map<String, Object>>) getBaseMapper().selectMaps(new QueryWrapper<PowerLine>()
-                .select("power_supply_id","line","line_sn","sub_station_areas","capacity","principal","comm_address")));
-                if(powerLine.getLineSn()!=null)
-                    eq("line_sn",powerLine.getLineSn());
-                if (powerLine.getPowerSupplyId()!=null)
-                    eq("power_supply_id",powerLine.getPowerSupplyId());
-                if (powerLine.getSubStationAreas()!=null)
-                    eq("sub_station_areas",powerLine.getSubStationAreas());
-                if (powerLine.getLine()!=null)
-                    eq("line",powerLine.getLine());
-        plT.setTerminal((List<java.util.Map<String, Object>>) terminalMapper.selectMaps(new QueryWrapper<Terminal>()
-                .select("terminal_num","comm_protocol","line_sn","put_operation_date","add_date","location","rated_voltage", "sim_number","type")));
-                if (terminal.getLineSn()!=null)
-                    eq("line_sn",terminal.getLineSn());
-                if (terminal.getAddDate()!=null)
-                    eq("add_date",terminal.getAddDate());
-                if (terminal.getTerminalNum()!=null)
-                    eq("terminal_num",terminal.getTerminalNum());
-                if (terminal.getType()!=null)
-                    eq("type",terminal.getType());
+//        plT.setPowerLines((List<java.util.Map<String, Object>>) getBaseMapper().selectMaps(new QueryWrapper<PowerLine>()
+//                .select("power_supply_id","line","line_sn","sub_station_areas","capacity","principal","comm_address")));
+//                if(powerLine.getLineSn()!=null)
+//                    eq("line_sn",powerLine.getLineSn());
+//                if (powerLine.getPowerSupplyId()!=null)
+//                    eq("power_supply_id",powerLine.getPowerSupplyId());
+//                if (powerLine.getSubStationAreas()!=null)
+//                    eq("sub_station_areas",powerLine.getSubStationAreas());
+//                if (powerLine.getLine()!=null)
+//                    eq("line",powerLine.getLine());
+//        plT.setTerminal((List<java.util.Map<String, Object>>) terminalMapper.selectMaps(new QueryWrapper<Terminal>()
+//                .select("terminal_num","comm_protocol","line_sn","put_operation_date","add_date","location","rated_voltage", "sim_number","type")));
+//                if (terminal.getLineSn()!=null)
+//                    eq("line_sn",terminal.getLineSn());
+//                if (terminal.getAddDate()!=null)
+//                    eq("add_date",terminal.getAddDate());
+//                if (terminal.getTerminalNum()!=null)
+//                    eq("terminal_num",terminal.getTerminalNum());
+//                if (terminal.getType()!=null)
+//                    eq("type",terminal.getType());
 
         return  plT;
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
     /**

@@ -52,20 +52,33 @@ public class SocketController {
     @GetMapping("call-terminal")
     @ApiOperation("召测终端，1 表示户表，2 表示总表")
     public CommonResult callTerminal(@RequestParam String terminalNum, int sing){
-        Connection connection = socketServer.getExistSocketMap().get(terminalNum);
-        if (connection == null)
-            return CommonResult.failed("TerminalNum Not Online");
+        if (!socketServer.getExistSocketMap().containsKey(terminalNum)) {
+//            log.error(socketServer.getExistSocketMap());
+            return CommonResult.failed("TerminalNum Not Online : " + terminalNum);
+        }
         if(sing > 2 || sing < 1)
             return CommonResult.failed("Sign Error");
         try{
+            Connection connection = socketServer.getExistSocketMap().get(terminalNum);
             FrameCmd frameCmd = new FrameCmd(DownLinkSign.CALLTERMINAL.getSign(),terminalNum);
             if (sing == 2)
                 frameCmd.setCtrl(DownLinkSign.CALLTMASTER.getSign());
+            log.error(frameCmd.toString());
             connection.println(HexUtils.hexToBytes(frameCmd.toString()));
         }catch (Exception e){
-            log.debug("Data sending failed : " + e);
+            log.error("Data sending failed : " + e);
             return CommonResult.failed("Data Sending Failed");
         }
-        return CommonResult.success("OK");
+        return CommonResult.success("Sending Success");
+    }
+
+    /**
+     * 查看在线终端
+     * @return map
+     */
+    @GetMapping("onLineTerminal")
+    @ApiOperation("查看在线终端")
+    public CommonResult onLineTerminal(){
+        return CommonResult.success(socketServer.getExistSocketMap().keySet());
     }
 }

@@ -29,10 +29,6 @@ public class HouseHoldMetersController {
     @Autowired
     private IHouseHoldMetersService houseHoldMetersService;
 
-
-
-
-
 }
 //    @ApiOperation("查询所有的管理单元")
 //    @GetMapping("/getList")

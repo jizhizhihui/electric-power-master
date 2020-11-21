@@ -234,17 +234,8 @@ public class ConnectionThread extends Thread {
             tcpFlowService.save(connection.getTcpFlow());
             connection.getTcpFlow().setByteNum(0);
 
-            //            //终端登录
-//            if (socketServer.getExistSocketMap().containsKey(determineFrame.getAddressNoSpace())) {
-//                Connection existConnection = socketServer.getExistSocketMap().get(determineFrame.getAddressNoSpace());
-//                existConnection.getConnectionThread().stopRunning();
-//            } else {
-//                //终端校验
-//                if (terminalService.getById(determineFrame.getAddressNoSpace()) != null) {
-//                    log.info(String.valueOf(terminalService.getById(determineFrame.getAddressNoSpace())));
-//                    socketServer.getExistSocketMap().put(determineFrame.getAddressNoSpace(), connection);
-//                }
-//            }
+            //验证终端，存储连接
+            terminalLogin(determineFrame.getAddressNoSpace());
 
             String ctrl = determineFrame.getCtrl();
             if (CtrlFrame.HEART.getVal().equals(ctrl)) {
@@ -293,6 +284,21 @@ public class ConnectionThread extends Thread {
             throw new FrameCheckFailureException("数据帧校验失败");
         }
     }
+
+    /**
+     * 终端验证 登录，存储连接
+     * @param terminalNum
+     */
+    private void terminalLogin(String terminalNum){
+        if (!socketServer.getExistSocketMap().containsKey(terminalNum)){
+            //终端校验
+            if (terminalService.getById(terminalNum) != null) {
+                log.info(String.valueOf(terminalService.getById(terminalNum)));
+                socketServer.getExistSocketMap().put(terminalNum, connection);
+            }
+        }
+    }
+
 
     private void AnswerFramePrint(String ctrl, String address, String ansFlag) {
         FrameAnswer frameAnswer = new FrameAnswer(ctrl, address, ansFlag);

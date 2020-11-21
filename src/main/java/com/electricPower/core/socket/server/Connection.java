@@ -31,11 +31,6 @@ public class Connection {
 	 */
 	private ConnectionThread connectionThread;
 
-//	/**
-//	 * 当前连接是否登陆
-//	 */
-//	private boolean isLogin;
-
 	/**
 	 * 当前终端设备
 	 */

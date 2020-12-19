@@ -243,11 +243,12 @@ public class ConnectionThread extends Thread {
                 log.info(CtrlFrame.HEART.getMsg());
                 AnswerFramePrint("80", determineFrame.getAddress(), "00");
 
-            } else if (CtrlFrame.LINE.getVal().equals(ctrl)) {
+            } else if (CtrlFrame.LINE.getVal().equals(ctrl) ||  CtrlFrame.ALARMDATA.getVal().equals(ctrl)) {
 
                 log.info(CtrlFrame.LINE.getMsg());
                 MeterData line = FrameUtils.analysisLien(message, true);
                 if (line != null) {
+                    line.setFrameType(ctrl);
                     line.setTerminalNum(determineFrame.getAddressNoSpace());
                     meterDataService.save(line);
                 }
@@ -258,6 +259,7 @@ public class ConnectionThread extends Thread {
                 log.info(CtrlFrame.MASTER.getMsg());
                 MeterData master = FrameUtils.analysisLien(message, false);
                 if (master != null) {
+                    master.setFrameType(ctrl);
                     master.setTerminalNum(determineFrame.getAddress().replace(" ", ""));
                     meterDataService.save(master);
                 }
@@ -274,7 +276,6 @@ public class ConnectionThread extends Thread {
                 AnswerFramePrint("80", determineFrame.getAddress(), "00");
             } else {
                 log.warn("控制字节 " + ctrl + " 无效");
-
 //                throw new FrameInvalidCtrlException();
             }
 
@@ -292,13 +293,12 @@ public class ConnectionThread extends Thread {
     private void terminalLogin(String terminalNum){
         if (!socketServer.getExistSocketMap().containsKey(terminalNum)){
             //终端校验
-            if (terminalService.getById(terminalNum) != null) {
-                log.info(String.valueOf(terminalService.getById(terminalNum)));
+            if (terminalService.isId(terminalNum)) {
+                log.info("TRUE");
                 socketServer.getExistSocketMap().put(terminalNum, connection);
             }
         }
     }
-
 
     private void AnswerFramePrint(String ctrl, String address, String ansFlag) {
         FrameAnswer frameAnswer = new FrameAnswer(ctrl, address, ansFlag);

@@ -112,6 +112,6 @@ public class MeterData implements Serializable {
     @ApiModelProperty(value = "运行状态字7（总表才有）")
     private String combinedPhaseFault;
 
-
-
+    @ApiModelProperty(value = "数据帧类型")
+    private String frameType;
 }

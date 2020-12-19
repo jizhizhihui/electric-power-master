@@ -14,5 +14,5 @@ import com.electricPower.project.entity.vo.PlT;
  */
 public interface ITerminalService extends IService<Terminal> {
 
-
+    Boolean isId(String terminalId);
 }

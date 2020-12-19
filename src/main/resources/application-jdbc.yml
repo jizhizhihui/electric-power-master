@@ -5,9 +5,9 @@ spring:
       enabled: flase
   datasource:
     platform: postgres
-    url: jdbc:postgresql://10.12.6.169:5432/electricity?characterEncoding=utf-8&serverTimezone=GMT%2B8
+    url: jdbc:postgresql://125.64.90.144:5432/electricity?characterEncoding=utf-8&serverTimezone=GMT%2B8
     username: postgres
-    password: guowushi
+    password: password
     driver-class-name: org.postgresql.Driver
     default-time-zone: +08:00
     character-set-server: utf8

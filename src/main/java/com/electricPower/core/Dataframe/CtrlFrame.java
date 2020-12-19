@@ -14,6 +14,9 @@ public enum CtrlFrame {
     //报警帧: 33
     ALARM("33","报警帧"),
 
+    //报警数据帧: 34
+    ALARMDATA("34","报警帧数据帧"),
+
     //心跳帧: 3F
     HEART("3F","心跳帧"),
 

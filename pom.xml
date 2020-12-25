@@ -24,7 +24,7 @@
         <jedis.version>2.9.1</jedis.version>
         <mybatis-plus.version>3.3.2</mybatis-plus.version>
         <java-jwt.version>3.4.0</java-jwt.version>
-        <druid.version>1.1.21</druid.version>
+        <druid.version>1.1.22</druid.version>
         <lombok.version>1.16.18</lombok.version>
         <kaptcha.version>2.3.2</kaptcha.version>
         <swagger.version>2.9.2</swagger.version>
@@ -50,6 +50,13 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <!-- 去掉默认配置 -->
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!--引入AOP依赖-->
@@ -110,12 +117,17 @@
             <artifactId>spring-integration-mqtt</artifactId>
         </dependency>
 
+        <!-- 引入log4j2依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>
         <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
-            <scope>provided</scope>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
@@ -194,4 +206,13 @@
         </pluginRepository>
     </pluginRepositories>
 
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>

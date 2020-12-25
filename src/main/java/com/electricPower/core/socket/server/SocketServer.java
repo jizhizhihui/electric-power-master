@@ -3,6 +3,7 @@ package com.electricPower.core.socket.server;
 import com.electricPower.core.socket.constants.SocketConstant;
 import com.electricPower.project.entity.TcpFlow;
 import lombok.Data;
+import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -18,7 +19,7 @@ import java.util.concurrent.*;
 /**
  * socket 服务
  */
-@Slf4j
+@Log4j2
 @Data
 public class SocketServer {
 

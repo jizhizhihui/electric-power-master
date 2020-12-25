@@ -22,6 +22,15 @@ public class TerminalServiceImpl extends ServiceImpl<TerminalMapper, Terminal> i
 //    IPowerLineService powerLineService;
 
     @Override
+    public void setTerminalStatus(Terminal terminal) {
+        Terminal newTerminal = new Terminal();
+        newTerminal.setTerminalNum(terminal.getTerminalNum());
+        newTerminal.setIsAlive(terminal.getIsAlive());
+        updateById(newTerminal);
+    }
+
+
+    @Override
     public Boolean isId(String terminalId){
         return getById(terminalId) != null;
     }

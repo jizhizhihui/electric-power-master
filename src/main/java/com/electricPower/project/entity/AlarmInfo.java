@@ -48,8 +48,8 @@ public class AlarmInfo implements Serializable {
     private String alarmSign;
 
     @ApiModelProperty(value = "创建时间")
-    private LocalDateTime createTime;
+    private LocalDateTime alarmTime;
 
     @ApiModelProperty(value = "是否已读(true:已读  false:未读)")
-    private Boolean isReade;
+    private boolean isReade;
 }

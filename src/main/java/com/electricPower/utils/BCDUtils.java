@@ -61,7 +61,7 @@ public class BCDUtils {
     public static void main(String[] args) {
         //A相电压码 ：22 12；电压 221.2
 //        if (stringBCDToFloat("848512", 3, true) != Float.NaN) {
-            log.info("num: " + stringBCDToFloat("848512", 3, true));
+//            log.info("num: " + stringBCDToFloat("848512", 3, true));
 //        }
 
         //字符串转时间戳
@@ -70,5 +70,6 @@ public class BCDUtils {
 //        } catch (ParseException e) {
 //            e.printStackTrace();
 //        }
+        System.getProperty("user.home");
     }
 }

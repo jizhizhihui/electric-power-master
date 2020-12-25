@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="Terminal对象", description="")
+@ApiModel(value="Terminal对象", description="终端信息")
 public class Terminal implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -61,7 +61,7 @@ public class Terminal implements Serializable {
     private Boolean isAlive;
 
     @ApiModelProperty(value = "台变id")
-    private int transformer_id;
+    private Integer transformer_id;
 
     @ApiModelProperty(value = "投运日期")
     private LocalDate putOperationDate;

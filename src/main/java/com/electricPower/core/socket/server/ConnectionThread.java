@@ -5,36 +5,19 @@ import com.electricPower.common.exception.frame.FrameCheckFailureException;
 import com.electricPower.core.Dataframe.CtrlFrame;
 import com.electricPower.core.Dataframe.DetermineFrame;
 
-import com.electricPower.common.exception.frame.FrameInvalidCtrlException;
 import com.electricPower.core.Dataframe.downlink.FrameAnswer;
-//import com.JZhi.rabbitmq.MsgProducer;
-import com.electricPower.core.socket.client.SocketClient;
-//import com.electricPower.project.entity.AlarmInfo;
 import com.electricPower.project.entity.AlarmInfo;
 import com.electricPower.project.entity.MeterData;
-//import com.electricPower.project.service.IAlarmInfoService;
-import com.electricPower.project.entity.Terminal;
 import com.electricPower.project.service.IAlarmInfoService;
 import com.electricPower.project.service.IMeterDataService;
 import com.electricPower.project.service.ITcpFlowService;
 import com.electricPower.project.service.ITerminalService;
-import com.electricPower.project.service.impl.MeterDataServiceImpl;
 import com.electricPower.utils.FrameUtils;
 import com.electricPower.utils.HexUtils;
-import com.electricPower.utils.StringUtils;
-import javafx.application.Application;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.scheduling.annotation.Async;
-
-import java.io.BufferedReader;
+import lombok.extern.log4j.Log4j2;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,7 +28,7 @@ import java.util.List;
  * 每一个client连接开一个线程
  */
 @EqualsAndHashCode(callSuper = true)
-@Slf4j
+@Log4j2
 @Data
 public class ConnectionThread extends Thread {
 
@@ -117,7 +100,6 @@ public class ConnectionThread extends Thread {
                 byte[] bytes = new byte[1024];
                 while (socket.getInputStream().read(bytes) > 0) {
                     //接受数据
-//                    log.info("服务端收到消息：" + HexUtils.encodeHexStr(bytes, false).replaceAll("0+$", ""));
                     int s = HexUtils.encodeHexStr(bytes, false).replaceAll("0+$", "").length() / 2;
                     connection.getTcpFlow().transferData(s);
 
@@ -227,7 +209,7 @@ public class ConnectionThread extends Thread {
 
             connection.getTerminal().setTerminalNum(determineFrame.getAddressNoSpace());
             connection.getTerminal().setIsAlive(true);
-            terminalService.updateById(connection.getTerminal());
+            terminalService.setTerminalStatus(connection.getTerminal());
 
             connection.getTcpFlow().setAddress(determineFrame.getAddressNoSpace());
             connection.getTcpFlow().setTime();
@@ -306,5 +288,4 @@ public class ConnectionThread extends Thread {
         log.info("应答帧：" + frameAnswer.toString());
         connection.println(HexUtils.hexToBytes(frameAnswer.toString()));
     }
-
 }

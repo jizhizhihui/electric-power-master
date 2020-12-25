@@ -1,6 +1,7 @@
 package com.electricPower.core.socket.server;
 
 import com.electricPower.core.socket.constants.SocketConstant;
+import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -12,7 +13,7 @@ import java.net.Socket;
 /**
  * 监听
  */
-@Slf4j
+@Log4j2
 class ListeningThread extends Thread {
 	private SocketServer socketServer;
 

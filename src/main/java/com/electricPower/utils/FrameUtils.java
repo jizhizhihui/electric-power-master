@@ -1,17 +1,12 @@
 package com.electricPower.utils;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-//import com.electricPower.project.entity.AlarmInfo;
 import com.electricPower.project.entity.AlarmInfo;
 import com.electricPower.project.entity.MeterData;
 import lombok.extern.log4j.Log4j2;
 
 import java.text.ParseException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-
 @Log4j2
 public class FrameUtils {
 
@@ -27,15 +22,7 @@ public class FrameUtils {
 
         //时间
         meterData.setSaveTime(LocalDateTime.now());
-        try {
-            int l = strings.length;
-            meterData.setAcquisitionTime(BCDUtils.stringBCDToLocalDataTime(strings[l - 8], strings[l - 7], strings[l - 6], strings[l - 5], strings[l - 4], strings[l - 3]));
-            log.info("时间戳打印：" + meterData.getAcquisitionTime().toString());
-            if (meterData.getAcquisitionTime().toString().equals("0000-00-00T00:00:00"))
-                return null;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        meterData.setAcquisitionTime(getFrameDateTime(strings));
 
         //电压
         meterData.setVoltageA(BCDUtils.stringBCDToFloat(strings[9] + strings[10], 1, false));
@@ -107,11 +94,15 @@ public class FrameUtils {
         AlarmInfo alarmInfo = new AlarmInfo();
         String[] strings = message.split(" ");
 
+        // 时间戳
+        alarmInfo.setAlarmTime(getFrameDateTime(strings));
+        // 报警标识
         alarmInfo.setAlarmSign(strings[9] + " " + strings[10]);
+        // 报警数
         alarmInfo.setAlarmCount(Integer.parseInt(strings[11]));
+        // 户表报警
         if (alarmInfo.getAlarmCount() > 0)
             alarmInfo.setAlarmInfo(analysisHouseholdAlarm(alarmInfo.getAlarmCount(), StringUtils.subString(strings, 12, alarmInfo.getAlarmCount() * 8)));
-        alarmInfo.setCreateTime(LocalDateTime.now());
 
         return alarmInfo;
     }
@@ -153,28 +144,39 @@ public class FrameUtils {
         return c.substring(c.length() - 2);
     }
 
-    public static String creatFrame(String frame) {
-        String[] strings = frame.split(" ");
-        StringBuilder nowFrame = new StringBuilder();
-        for (String s : strings) {
-            nowFrame.append((byte) Integer.parseInt(s, 16));
+    /**
+     * 获取数据帧时间戳
+     * @param strings 数据帧
+     * @return LocalDateTime
+     */
+    public static LocalDateTime getFrameDateTime(String[] strings) {
+        try {
+            int l = strings.length;
+            LocalDateTime localDateTime = BCDUtils.stringBCDToLocalDataTime(strings[l - 8], strings[l - 7], strings[l - 6], strings[l - 5], strings[l - 4], strings[l - 3]);
+            log.info("时间戳打印：" + localDateTime);
+            if (localDateTime.toString().equals("0000-00-00T00:00:00"))
+                return null;
+            return localDateTime;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
         }
-        return nowFrame.toString();
     }
 
+    /**
+     * 获取户表的报警信息
+     * @param num 报警数
+     * @param message 数据帧
+     * @return JSONObject
+     */
     public static JSONObject analysisHouseholdAlarm(int num, String message) {
         JSONObject jsonObject = new JSONObject();
 
         String[] msg = message.split(" ");
         for (int i = 0, count = 0; i < num && count + 8 < msg.length; i++, count += 8) {
-            String hma = StringUtils.subString(msg, count, count + 6);
             jsonObject.put(StringUtils.subString(msg, count, count + 5), msg[count + 7] + msg[count + 8]);
         }
         return jsonObject;
-    }
-
-    public static String reverseAddress(String frame){
-        return reverseAddress(frame.split(" "));
     }
 
     /**
@@ -182,6 +184,10 @@ public class FrameUtils {
      * @param frame 数据帧
      * @return String 终端地址
      */
+    public static String reverseAddress(String frame){
+        return reverseAddress(frame.split(" "));
+    }
+
     public static String reverseAddress(String[] frame){
         if (frame.length > 8)
             return frame[8] + " " + frame[7] +  " " + frame[6] +  " " + frame[5] +  " " + frame[4] + " " +  frame[3];
@@ -189,7 +195,7 @@ public class FrameUtils {
     }
 
     public static void main(String[] args) {
-//        log.info(analysisHouseholdAlarm(3,"11 11 11 11 11 12 12 3A 11 11 11 11 11 11 12 3A 11 11 11 11 11 31 12 3A 11"));
+        log.info(analysisAlarm("11 11 11 11 11 12 12 3A 11 11 11 11 11 11 12 3A 11 11 11 11 11 31 12 3A 11"  ));// 20 08 06 11 15 00
 //        analysisAlarmSign("123A");
 
 //        log.error(creatCheck("43 55 01 11 11 11 11 11 11 FF FF 22 34 22 56 00 00 12 34 00 00 56 78 00 01 90 12 00 00 01 23 00 00 00 45 80 00 78 90 00 01 23 45 80 00 56 78 00 23 45 67 00 00 78 90 80 01 23 45 00 00 56 78 80 23 45 67 10 00 09 98 85 00 80 25 00 65 20 08 06 11 15 00 D2 16"));

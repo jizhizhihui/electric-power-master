@@ -3,6 +3,7 @@ package com.electricPower.core.socket.server;
 import com.electricPower.project.entity.TcpFlow;
 import com.electricPower.project.entity.Terminal;
 import lombok.Data;
+import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -15,7 +16,7 @@ import static com.electricPower.core.socket.constants.SocketConstant.RETRY_COUNT
 /**
  * 封装socket添加println方法
  */
-@Slf4j
+@Log4j2
 @Data
 public class Connection {
 

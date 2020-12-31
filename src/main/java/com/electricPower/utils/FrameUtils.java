@@ -7,13 +7,15 @@ import lombok.extern.log4j.Log4j2;
 
 import java.text.ParseException;
 import java.time.LocalDateTime;
+
 @Log4j2
 public class FrameUtils {
 
     /**
      * 解析 本地数据帧 或 总表数据帧
+     *
      * @param message 数据帧
-     * @param lien true： 本地数据； false：总表数据
+     * @param lien    true： 本地数据； false：总表数据
      * @return MeterData
      */
     public static MeterData analysisLien(String message, boolean lien) {
@@ -86,6 +88,7 @@ public class FrameUtils {
 
     /**
      * 解析 报警数据帧
+     *
      * @param message 数据帧
      * @return AlarmInfo
      */
@@ -129,6 +132,7 @@ public class FrameUtils {
 
     /**
      * 创建校验字节
+     *
      * @param message 数据帧
      * @return String
      */
@@ -146,6 +150,7 @@ public class FrameUtils {
 
     /**
      * 获取数据帧时间戳
+     *
      * @param strings 数据帧
      * @return LocalDateTime
      */
@@ -165,7 +170,8 @@ public class FrameUtils {
 
     /**
      * 获取户表的报警信息
-     * @param num 报警数
+     *
+     * @param num     报警数
      * @param message 数据帧
      * @return JSONObject
      */
@@ -181,21 +187,27 @@ public class FrameUtils {
 
     /**
      * 终端地址逆序
+     *
      * @param frame 数据帧
      * @return String 终端地址
      */
-    public static String reverseAddress(String frame){
+    public static String reverseAddress(String frame) {
         return reverseAddress(frame.split(" "));
     }
 
-    public static String reverseAddress(String[] frame){
+    public static String reverseAddress(String[] frame) {
         if (frame.length > 8)
-            return frame[8] + " " + frame[7] +  " " + frame[6] +  " " + frame[5] +  " " + frame[4] + " " +  frame[3];
+            return frame[8] + " " + frame[7] + " " + frame[6] + " " + frame[5] + " " + frame[4] + " " + frame[3];
         return null;
     }
 
+    public static String reverseTerminalNum(String terminalNum) {
+        String[] c = terminalNum.split("");
+        return c[10] + c[11] + c[8] + c[9] + c[6] + c[7] + c[4] + c[5] + c[2] + c[3] + c[0] + c[1];
+    }
+
     public static void main(String[] args) {
-        log.info(analysisAlarm("11 11 11 11 11 12 12 3A 11 11 11 11 11 11 12 3A 11 11 11 11 11 31 12 3A 11"  ));// 20 08 06 11 15 00
+        log.info(reverseTerminalNum("000002000001"));// 20 08 06 11 15 00
 //        analysisAlarmSign("123A");
 
 //        log.error(creatCheck("43 55 01 11 11 11 11 11 11 FF FF 22 34 22 56 00 00 12 34 00 00 56 78 00 01 90 12 00 00 01 23 00 00 00 45 80 00 78 90 00 01 23 45 80 00 56 78 00 23 45 67 00 00 78 90 80 01 23 45 00 00 56 78 80 23 45 67 10 00 09 98 85 00 80 25 00 65 20 08 06 11 15 00 D2 16"));

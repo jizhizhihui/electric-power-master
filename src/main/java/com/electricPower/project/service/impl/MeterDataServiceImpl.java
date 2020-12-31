@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -19,7 +21,7 @@ import java.util.Map;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author
@@ -28,54 +30,13 @@ import java.util.Map;
 @Service
 public class MeterDataServiceImpl extends ServiceImpl<MeterDataMapper, MeterData> implements IMeterDataService {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        public List getVoltage(String lineSn ) {
-            QueryWrapper<MeterData> queryWrapper = new QueryWrapper<>();    // select用于筛选需要的字段
-            queryWrapper.in("line_sn", Collections.singletonList(lineSn)).select("line_sn","voltage_a","voltage_b","voltage_c","save_time");
-            return getBaseMapper().selectMaps(queryWrapper);
-        }
-
-        public List getCurrent(String lineSn){
-            QueryWrapper<MeterData> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("line_sn",lineSn).select("line_sn","current_a","current_b","current_c","save_time");
-            return getBaseMapper().selectMaps(queryWrapper);
-        }
-
-        public List getLineSn(String line_sn){
-            QueryWrapper<MeterData> queryWrapper = new QueryWrapper<>();
-            queryWrapper.like("line_sn",line_sn);    //List<MeterData>meterDataList = meterDataService.list(queryWrapper);
-            return getBaseMapper().selectMaps(queryWrapper);
-            }
-
-        @Override
-        public Object getPaging(Integer current, Integer size) {
-            return null;
-        }
-
-
-
+    @Override
+    public MeterData getOneBySign(String terminalNum, String sign) {
+        return getBaseMapper().selectOne(new QueryWrapper<MeterData>()
+                .eq("terminal_num", terminalNum)
+                .eq("frame_type", sign)
+                .gt("acquisition_time", LocalDate.now())
+                .last("limit 1")
+                .orderByDesc("acquisition_time"));
+    }
 }

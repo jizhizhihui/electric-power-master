@@ -51,7 +51,7 @@ public class PowerBureauServiceImpl extends ServiceImpl<PowerBureauMapper, Power
     }
 
     public List getBureau(){
-        QueryWrapper<PowerBureau> queryWrapper = new QueryWrapper();
+        QueryWrapper<PowerBureau> queryWrapper = new QueryWrapper<>();
         queryWrapper.select("p_b_name");
         List<PbPs> list = new ArrayList<>();  //将PbPs放入集合中
         getBaseMapper().selectList(queryWrapper).forEach(b->{  //foreach 遍历lamda表达语法
@@ -59,19 +59,4 @@ public class PowerBureauServiceImpl extends ServiceImpl<PowerBureauMapper, Power
         });
         return list;
     }
-
-
-
-    public List getBureauAndSupply(){
-        PowerBureau powerBureau = new PowerBureau();
-        QueryWrapper queryWrapper = new QueryWrapper();
-        queryWrapper.select("power_bureau_id","p_b_name");
-        List list = getBaseMapper().selectList(queryWrapper);
-        list.add(powerBureau.getPowerBureauId());
-        list.add(powerBureau.getPBName());
-        System.out.println(list);
-        return list;
-    }
-
-
 }

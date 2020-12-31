@@ -1,28 +1,27 @@
 package com.electricPower.core.socket.server;
 
-import com.electricPower.common.config.ApplicationContextProvider;
-import com.electricPower.common.exception.frame.FrameCheckFailureException;
-import com.electricPower.core.Dataframe.CtrlFrame;
-import com.electricPower.core.Dataframe.DetermineFrame;
-
-import com.electricPower.core.Dataframe.downlink.FrameAnswer;
-import com.electricPower.project.entity.AlarmInfo;
-import com.electricPower.project.entity.MeterData;
-import com.electricPower.project.service.IAlarmInfoService;
-import com.electricPower.project.service.IMeterDataService;
-import com.electricPower.project.service.ITcpFlowService;
-import com.electricPower.project.service.ITerminalService;
-import com.electricPower.utils.FrameUtils;
-import com.electricPower.utils.HexUtils;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.extern.log4j.Log4j2;
-import java.io.IOException;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+        import com.electricPower.common.config.ApplicationContextProvider;
+        import com.electricPower.common.exception.frame.FrameCheckFailureException;
+        import com.electricPower.core.Dataframe.CtrlFrame;
+        import com.electricPower.core.Dataframe.DetermineFrame;
+        import com.electricPower.core.Dataframe.downlink.FrameAnswer;
+        import com.electricPower.project.entity.AlarmInfo;
+        import com.electricPower.project.entity.MeterData;
+        import com.electricPower.project.service.IAlarmInfoService;
+        import com.electricPower.project.service.IMeterDataService;
+        import com.electricPower.project.service.ITcpFlowService;
+        import com.electricPower.project.service.ITerminalService;
+        import com.electricPower.utils.FrameUtils;
+        import com.electricPower.utils.HexUtils;
+        import lombok.Data;
+        import lombok.EqualsAndHashCode;
+        import lombok.extern.log4j.Log4j2;
+        import java.io.IOException;
+        import java.net.Socket;
+        import java.util.ArrayList;
+        import java.util.Arrays;
+        import java.util.Date;
+        import java.util.List;
 
 /**
  * 每一个client连接开一个线程
@@ -80,9 +79,7 @@ public class ConnectionThread extends Thread {
         this.socket = socket;
         this.socketServer = socketServer;
         connection = new Connection(socket, this);
-        Date now = new Date();
-        connection.setCreateTime(now);
-        connection.setLastOnTime(now);
+
         isRunning = true;
         subpackage = new ArrayList<>();
         frame = new StringBuilder();
@@ -100,6 +97,7 @@ public class ConnectionThread extends Thread {
                 byte[] bytes = new byte[1024];
                 while (socket.getInputStream().read(bytes) > 0) {
                     //接受数据
+                    //                    String s = HexUtils.encodeHexStr(bytes, false).replaceAll("0+$", "");
                     int s = HexUtils.encodeHexStr(bytes, false).replaceAll("0+$", "").length() / 2;
                     connection.getTcpFlow().transferData(s);
 
@@ -148,7 +146,7 @@ public class ConnectionThread extends Thread {
     private void terminalClose() {
         if (!connection.getTerminal().getTerminalNum().equals("")) {
             connection.getTerminal().setIsAlive(false);
-            terminalService.updateById(connection.getTerminal());
+            terminalService.setTerminalStatus(connection.getTerminal());
         }
     }
 
@@ -218,74 +216,71 @@ public class ConnectionThread extends Thread {
 
             //验证终端，存储连接
             terminalLogin(determineFrame.getAddressNoSpace());
-
             String ctrl = determineFrame.getCtrl();
-            if (CtrlFrame.HEART.getVal().equals(ctrl)) {
 
-                log.info(CtrlFrame.HEART.getMsg());
-                AnswerFramePrint("80", determineFrame.getAddress(), "00");
-
-            } else if (CtrlFrame.LINE.getVal().equals(ctrl) ||  CtrlFrame.ALARMDATA.getVal().equals(ctrl)) {
-
-                log.info(CtrlFrame.LINE.getMsg());
-                MeterData line = FrameUtils.analysisLien(message, true);
-                if (line != null) {
-                    line.setFrameType(ctrl);
-                    line.setTerminalNum(determineFrame.getAddressNoSpace());
-                    meterDataService.save(line);
-                }
-                AnswerFramePrint("80", determineFrame.getAddress(), "00");
-
-            } else if (CtrlFrame.MASTER.getVal().equals(ctrl)) {
-
-                log.info(CtrlFrame.MASTER.getMsg());
-                MeterData master = FrameUtils.analysisLien(message, false);
-                if (master != null) {
-                    master.setFrameType(ctrl);
-                    master.setTerminalNum(determineFrame.getAddress().replace(" ", ""));
-                    meterDataService.save(master);
-                }
-                AnswerFramePrint("80", determineFrame.getAddress(), "00");
-
-            } else if (CtrlFrame.ALARM.getVal().equals(ctrl)) {
-
-                log.info(CtrlFrame.ALARM.getMsg());
-                AlarmInfo alarmInfo = FrameUtils.analysisAlarm(message);
-                alarmInfo.setTerminalNum(determineFrame.getAddressNoSpace());
-                alarmInfoService.save(alarmInfo);
+            switch (ctrl) {
+                case "3F":
+                    AnswerFramePrint("80", determineFrame.getAddress(), "00");
+                    break;
+                case "01":
+                case "34":
+                case "81":
+                    MeterData line = FrameUtils.analysisLien(message, true);
+                    if (line != null) {
+                        line.setFrameType(ctrl);
+                        line.setTerminalNum(determineFrame.getAddressNoSpace());
+                        meterDataService.save(line);
+                    }
+                    AnswerFramePrint("80", determineFrame.getAddress(), "00");
+                    break;
+                case "02":
+                case "82":
+                    MeterData master = FrameUtils.analysisLien(message, false);
+                    if (master != null) {
+                        master.setFrameType(ctrl);
+                        master.setTerminalNum(determineFrame.getAddress().replace(" ", ""));
+                        meterDataService.save(master);
+                    }
+                    AnswerFramePrint("80", determineFrame.getAddress(), "00");
+                    break;
+                case "33":
+                    AlarmInfo alarmInfo = FrameUtils.analysisAlarm(message);
+                    alarmInfo.setTerminalNum(determineFrame.getAddressNoSpace());
+                    alarmInfoService.save(alarmInfo);
 
 //                msgProducer.sendMsg("曾勇2");
-                AnswerFramePrint("80", determineFrame.getAddress(), "00");
-            } else {
-                log.warn("控制字节 " + ctrl + " 无效");
-//                throw new FrameInvalidCtrlException();
+                    AnswerFramePrint("80", determineFrame.getAddress(), "00");
+                    break;
+                default:
+                    log.warn("控制字节 " + ctrl + " 无效");
+                    throw new IllegalStateException("Unexpected value: " + ctrl);
             }
-
-        } else {
-            AnswerFramePrint("C0", determineFrame.getAddress(), "02");
-            log.info("失败数据帧：" + determineFrame.toString());
-            throw new FrameCheckFailureException("数据帧校验失败");
         }
     }
 
     /**
      * 终端验证 登录，存储连接
-     * @param terminalNum
+     * @param terminalNum 终端地址
      */
     private void terminalLogin(String terminalNum){
         if (!socketServer.getExistSocketMap().containsKey(terminalNum)){
             //终端校验
             if (terminalService.isId(terminalNum)) {
-                log.info("TRUE");
                 socketServer.getExistSocketMap().put(terminalNum, connection);
             }
+        }
+        else {
+            socketServer.getExistSocketMap().put(terminalNum,connection);
+//            if(socketServer.getExistSocketMap().get(terminalNum).getSocket().isClosed())
+//                log.error("找到了");
         }
     }
 
     private void AnswerFramePrint(String ctrl, String address, String ansFlag) {
         FrameAnswer frameAnswer = new FrameAnswer(ctrl, address, ansFlag);
         frameAnswer.setAddress(FrameUtils.reverseAddress(frameAnswer.toString()));
-        log.info("应答帧：" + frameAnswer.toString());
-        connection.println(HexUtils.hexToBytes(frameAnswer.toString()));
+        log.info("应答帧：{}",frameAnswer.toString());
+        connection.getFrame().add(HexUtils.hexToBytes(frameAnswer.toString()));
+        connection.println();
     }
 }

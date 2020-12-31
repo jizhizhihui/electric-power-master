@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2020-10-02
  */
 @RestController
-@RequestMapping("//oper-exception-log")
+@RequestMapping("/api/oper-exception-log")
 public class OperExceptionLogController {
 
 }

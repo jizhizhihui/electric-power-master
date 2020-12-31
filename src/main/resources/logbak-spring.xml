@@ -1,0 +1,53 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<configuration>-->
+<!--    <property name="LOG_HOME" value="E:/EleLogs/SocketLog" />-->
+<!--    <property name="LOG_ERROR_HOME" value="E:/EleLogs/SocketError" />-->
+
+<!--    &lt;!&ndash; 控制台输出 &ndash;&gt;-->
+<!--    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">-->
+<!--        <encoder>-->
+<!--            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger[%line] - %msg %n</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
+
+<!--    &lt;!&ndash; 文件输出 &ndash;&gt;-->
+<!--    <appender name="rollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        &lt;!&ndash; <file>${LOG_HOME}/app.log</file> &ndash;&gt;-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>${LOG_HOME}/app.%d{yyyy-MM-dd}.%i.log</fileNamePattern>-->
+<!--            &lt;!&ndash; 如果按天来回滚，则最大保存时间为30天，30天之前的都将被清理掉，这里的值与滚动策略模式有关 &ndash;&gt;-->
+<!--            <maxHistory>30</maxHistory>-->
+<!--            &lt;!&ndash; 按照日期进行归档，并且对日志文件大小进行限制 &ndash;&gt;-->
+<!--            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">-->
+<!--                &lt;!&ndash; 设置文件大于100MB进行压缩归档 ，此时fileNamePattern要加%i &ndash;&gt;-->
+<!--                <maxFileSize>100MB</maxFileSize>-->
+<!--            </timeBasedFileNamingAndTriggeringPolicy>-->
+<!--        </rollingPolicy>-->
+<!--        <encoder>-->
+<!--            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger[%line] - %msg %n</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
+
+<!--    &lt;!&ndash; ERROR文件输出 &ndash;&gt;-->
+<!--    <appender name="errorRollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        &lt;!&ndash; <file>${LOG_HOME}/app.log</file> &ndash;&gt;-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>${LOG_ERROR_HOME}/app.error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>-->
+<!--            &lt;!&ndash; 如果按天来回滚，则最大保存时间为30天，30天之前的都将被清理掉，这里的值与滚动策略模式有关 &ndash;&gt;-->
+<!--            <maxHistory>30</maxHistory>-->
+<!--            &lt;!&ndash; 按照日期进行归档，并且对日志文件大小进行限制 &ndash;&gt;-->
+<!--            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">-->
+<!--                &lt;!&ndash; 设置文件大于100MB进行压缩归档 ，此时fileNamePattern要加%i &ndash;&gt;-->
+<!--                <maxFileSize>100MB</maxFileSize>-->
+<!--            </timeBasedFileNamingAndTriggeringPolicy>-->
+<!--        </rollingPolicy>-->
+<!--        <encoder>-->
+<!--            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger[%line] - %msg %n</pattern>-->
+<!--        </encoder>-->
+<!--        <filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+<!--            <level>ERROR</level>-->
+<!--            <onMatch>ACCEPT</onMatch>-->
+<!--            <onMismatch>DENY</onMismatch>-->
+<!--        </filter>-->
+<!--    </appender>-->
+<!--</configuration>-->

@@ -7,7 +7,7 @@ spring:
     platform: postgres
     url: jdbc:postgresql://125.64.90.144:5432/electricity?characterEncoding=utf-8&serverTimezone=GMT%2B8
     username: postgres
-    password: password
+    password: sky123
     driver-class-name: org.postgresql.Driver
     default-time-zone: +08:00
     character-set-server: utf8
@@ -42,10 +42,14 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     database-id: mysql
 
-# 日志配置
+## 日志配置
 logging:
-  level:
-    org.springframework: warn
+  #  config: classpath:logbak-spring.xml
+  file:
+    max-size: 100MB # 最大日志文件大小
+    max-history: 15 # 日志保存15天
+    total-size-cap: 4096mb # 日志备份的总大小
+  path: E:/run/EleLogs
 
 #加密配置
 jasypt:

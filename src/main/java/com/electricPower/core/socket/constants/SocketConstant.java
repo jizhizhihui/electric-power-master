@@ -17,4 +17,9 @@ public class SocketConstant {
 	 * 重试次数：3
 	 */
 	public static final int RETRY_COUNT = 3;
+
+	/**
+	 * 定时间隔：200 毫秒
+	 */
+	public static  final  int TIMING = 200;
 }

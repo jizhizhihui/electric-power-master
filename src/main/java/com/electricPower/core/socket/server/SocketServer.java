@@ -67,14 +67,15 @@ public class SocketServer {
         scheduleSocketMonitorExecutor.scheduleWithFixedDelay(() -> {
             Date now = new Date();
             existConnectionThreadList.removeIf(conn -> !heartDuration(now,conn));
+//            failedConnection();
         }, 0, 1, TimeUnit.SECONDS);
     }
 
     /**
      * 判断心跳
-     * @param now
-     * @param connectionThread
-     * @return
+     * @param now 当前时间
+     * @param connectionThread 连接线程
+     * @return boolean
      */
     private boolean heartDuration(Date now , ConnectionThread connectionThread){
         Date lastOnTime = connectionThread.getConnection().getLastOnTime();
@@ -86,6 +87,16 @@ public class SocketServer {
             return false;
         }
         return true;
+    }
+
+    /**
+     * 删除已关闭连接
+     */
+    private void failedConnection(){
+        existSocketMap.forEach((k,v)->{
+            if (v.getSocket().isClosed())
+                existSocketMap.remove(k);
+        });
     }
 
     /**
